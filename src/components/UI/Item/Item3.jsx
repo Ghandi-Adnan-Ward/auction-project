@@ -6,7 +6,7 @@ import moment from 'moment';
 import { Button, TextField } from "@material-ui/core";
 import { useEffect } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 const Item3 = (props) => {
   const { id, imgUrl, model, carName, automatic, speed, price,time,bidType,auctionEndTime,auctionStartTime } = props.item;
   const [currentTime, setCurrentTime] = useState(moment().format('HH:mm:ss'));
@@ -14,11 +14,11 @@ const Item3 = (props) => {
   const [auctionActive, setAuctionActive] = useState(false);
   const [highestBid, setHighestBid] = useState(price);
   const [auctionEnded, setAuctionEnded] = useState(false);
-  // const [firstMinutePassed, setFirstMinutePassed] = useState(false);
+   // const [firstMinutePassed, setFirstMinutePassed] = useState(false);
   // const [remaing, setremaing] = useState(moment.utc(time).format("HH:mm:ss"));
-const url='http://localhost:8000/api/v1/user/auctions/4/bid'
+const url='http://localhost:8000/api/v1/user/auctions/'+`${id}`+'/bid'
   const t=moment.utc(time).format("HH:mm:ss")
-
+const navigate=useNavigate()
   const [remaing, setremaing] = useState(time/1000);
   // const calculateTimeRemaining = () => {
   //   const endTime = moment().add(time, 'seconds');
@@ -139,12 +139,16 @@ useEffect(() => {
   
   const handleBidSubmit = (event) => {
     event.preventDefault();
+    const jwt_token=localStorage.getItem('jwt_token');
+
     const newBid = parseFloat(event.target.elements.bid.value);
-    if ( newBid > highestBid) {
+    if ( newBid > highestBid && jwt_token!=null) {
       setHighestBid(newBid);
       sendBidToBackend(newBid)
     }
-    
+    else{
+      navigate('/login')
+    }
     setBid(0)
   }
   // useEffect(() => {

@@ -9,7 +9,8 @@ import LaptopDetails from "../pages/LaptopDetails";
  import NotFound from "../pages/NotFound";
 import Contact from '../pages/Contact'
 import Login from "../pages/Login";
-import Register from "../components/UI/register/Register";
+import Logout from "../components/UI/Logout/Logout";
+ import Register from "../components/UI/register/Register";
 import Aqar from "../pages/Aqar";
 import AddBazar from "../pages/AddBazar";
 const Routers = () => {
@@ -24,6 +25,8 @@ const Routers = () => {
       <Route path="/laptop/:slug" element={<LaptopDetails />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/logout" element={<Logout />} />
+
       <Route path="/register" element={<Register />} />
        <Route path="/addbazar" element={<AddBazar />} />
 

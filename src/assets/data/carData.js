@@ -55,8 +55,8 @@ const carData = [
     gps: "GPS Navigation",
     seatType: "Heated seats",
     automatic: "Automatic",
-      auctionStartTime : moment().set('hour', 21).set('minute', 0).set('second', 0), // بداية المزاد 11:00 صباحًا
-      auctionEndTime : moment().set('hour', 24).set('minute', 0).set('second', 0), // نهاية المزاد 12:00 ظهرًا
+      auctionStartTime : moment().set('hour', 1).set('minute', 0).set('second', 0), // بداية المزاد 11:00 صباحًا
+      auctionEndTime : moment().set('hour', 4).set('minute', 0).set('second', 0), // نهاية المزاد 12:00 ظهرًا
       bidType:2,
     description:
     "details and description details and description details and description details and description details and description "

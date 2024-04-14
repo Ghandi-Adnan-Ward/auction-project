@@ -8,18 +8,32 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const Item3 = (props) => {
-  const { id, imgUrl, model, carName, automatic, speed, price,time,bidType,auctionEndTime,auctionStartTime } = props.item;
-  const [currentTime, setCurrentTime] = useState(moment().format('HH:mm:ss'));
+   const {   model, name,minimum_bid ,brand,end_time,image } = props.item;
+  const [currentTime, setCurrentTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
   const [bid, setBid] = useState(0);
   const [auctionActive, setAuctionActive] = useState(false);
-  const [highestBid, setHighestBid] = useState(price);
+  const [highestBid, setHighestBid] = useState(minimum_bid);
   const [auctionEnded, setAuctionEnded] = useState(false);
    // const [firstMinutePassed, setFirstMinutePassed] = useState(false);
   // const [remaing, setremaing] = useState(moment.utc(time).format("HH:mm:ss"));
-const url='http://localhost:8000/api/v1/user/auctions/'+`${id}`+'/bid'
-  const t=moment.utc(time).format("HH:mm:ss")
+const url='http://localhost:8000/api/v1/user/auctions/12/bid'
+  const t=moment.utc(end_time).format("HH:mm:ss")
+  const endT=moment(end_time).format('YYYY-MM-DD HH:mm:ss');
+      const end=moment(endT,'YYYY-MM-DD HH:mm:ss')
+  // const [carImage, setCarImage] = useState('');
 const navigate=useNavigate()
-  const [remaing, setremaing] = useState(time/1000);
+  const [remaing, setremaing] = useState(moment(end,'YYYY-MM-DD HH:mm:ss'));
+  // useEffect(() => {
+  //   fetchCarImage();
+  // }, []);
+  // const fetchCarImage = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:8000/api/v1/user/car-auctions/15/image');
+  //     setCarImage(response.data.url);
+  //   } catch (error) {
+  //     console.error('Error fetching car image:', error);
+  //   }
+  // };
   // const calculateTimeRemaining = () => {
   //   const endTime = moment().add(time, 'seconds');
   //   const remainingTime = moment(endTime).diff(moment());
@@ -30,12 +44,12 @@ const navigate=useNavigate()
    useEffect(() => {
     const intervalId = setInterval(() => {
       const now = moment();
-      setCurrentTime(now.format('HH:mm:ss'));
+      setCurrentTime(now.format('YYYY-MM-DD HH:mm:ss'));
       
-      if (now.isBetween(auctionStartTime, auctionEndTime)) {
+      if (now.isBetween(currentTime, end)) {
         setAuctionActive(true);
-        setremaing(auctionEndTime.diff(now, 'seconds')); 
-      } else if (now.isAfter(auctionEndTime)) {
+        setremaing(end.diff(now,'seconds')); 
+      } else if (now.isAfter(end)) {
         setAuctionActive(false);
         setAuctionEnded(true);
 
@@ -89,7 +103,7 @@ const navigate=useNavigate()
   };
   useEffect(() => {
     const intervalid=setInterval(()=>{
-      setCurrentTime(moment().format('HH:mm:ss'));
+      setCurrentTime(moment().format('YYYY-MM-DD HH:mm:ss'));
 
     })
   
@@ -102,7 +116,7 @@ useEffect(() => {
 
   if(auctionActive){
     const intervalId=setInterval(() => {
-      setCurrentTime(moment().format('HH:mm:ss'));
+      setCurrentTime(moment().format('YYYY-MM-DD HH:mm:ss'));
 
       // setremaing(remaing-1)
       // setCurrentTime(moment().format('HH:mm:ss'))
@@ -141,10 +155,10 @@ useEffect(() => {
     event.preventDefault();
     const jwt_token=localStorage.getItem('jwt_token');
 
-    const newBid = parseFloat(event.target.elements.bid.value);
-    if ( newBid > highestBid && jwt_token!=null) {
-      setHighestBid(newBid);
-      sendBidToBackend(newBid)
+    const bid_amount = parseFloat(event.target.elements.bid.value);
+    if ( bid_amount > highestBid && jwt_token!=null) {
+      setHighestBid(bid_amount);
+      sendBidToBackend(bid_amount)
     }
     else{
       navigate('/login')
@@ -182,11 +196,11 @@ useEffect(() => {
     <Col lg="4" md="4" sm="6" className="mb-5">
       <div className="car__item">
         <div className="car__img">
-          <img src={imgUrl} alt="" className="w-100" />
+          <img src={image} alt="img" className="w-100" />
         </div>
 
         <div className="car__item-content mt-4">
-          <h4 className="section__title text-center">{carName}</h4>
+          <h4 className="section__title text-center">{name}</h4>
           {!auctionActive ?(<>
             <h6 className="rent__price text-center mt-">
             ${highestBid}.00 <span></span>
@@ -196,12 +210,12 @@ useEffect(() => {
             <span className=" d-flex align-items-center gap-1">
               <i className="ri-car-line"></i> {model}
             </span>
-            <span className=" d-flex align-items-center gap-1">
+            {/* <span className=" d-flex align-items-center gap-1">
               <i className="ri-settings-2-line"></i> {automatic}
             </span>
             <span className=" d-flex align-items-center gap-1">
               <i className="ri-timer-flash-line"></i> {speed}
-            </span>
+            </span> */}
           </div>
           {auctionActive && !auctionEnded ? (
             <form onSubmit={handleBidSubmit }>
@@ -211,7 +225,7 @@ useEffect(() => {
                   onChange={handleBidChange}
                   value={bid}
                   id="bid"
-                  name="bid"
+                  name="bid_amount"
                   variant="standard" 
                 />
                 <br />
@@ -229,7 +243,7 @@ useEffect(() => {
           )}
 
           <button className=" w-100 car__item-btn car__btn-details">
-          <Link to={`/cars/${carName}`}>Details</Link>
+          <Link to={`/cars/${name}`}>Details</Link>
           </button>
         </div>
          <p>{currentTime}</p>

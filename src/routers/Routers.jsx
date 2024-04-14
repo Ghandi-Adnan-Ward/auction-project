@@ -13,6 +13,7 @@ import Logout from "../components/UI/Logout/Logout";
  import Register from "../components/UI/register/Register";
 import Aqar from "../pages/Aqar";
 import AddBazar from "../pages/AddBazar";
+import Item6 from "../components/UI/Item/Item6";
 const Routers = () => {
   return (
     <Routes>

@@ -23,7 +23,6 @@ import { useNavigate } from 'react-router-dom';
       email:event.target.email.value,
       password:event.target.password.value
     }
-  setLoading(true)
     try {
         axios.post('http://localhost:8000/api/v1/user/login', formData)
         .then(res=>{
@@ -33,12 +32,18 @@ import { useNavigate } from 'react-router-dom';
             const jwt_token=res.data.details.jwt_token;
             localStorage.setItem('jwt_token',jwt_token)
             localStorage.setItem('id',id)
-            console.log(id)
+            console.log(jwt_token)
+            // const config={
+            //   headers:{
+            //     Authorization:`Bearer ${jwt_token}`
+            //   }
+            // }
+            
             navigate('/')
-            setTimeout(() => {
-              const response =   axios.post('http://localhost:8000/api/v1/user/logout', formData,config);
-              localStorage.clear();
-               console.log('Response:', response.data);    }, 10000);
+            // setTimeout(() => {
+            //   const response =   axios.post('http://localhost:8000/api/v1/user/logout', formData,config);
+            //   localStorage.clear();
+            //    console.log('Response:', response.data);    }, 10000);
         }
           // headers:{
           //   "Authorization":`Bearer ${localStorage.getItem("access_token")}`
@@ -49,7 +54,8 @@ import { useNavigate } from 'react-router-dom';
 
        console.error('Error:', error);
     }
-    
+      setLoading(true)
+
   };
   return (
     <div>

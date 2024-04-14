@@ -26,13 +26,32 @@
 // };
 
 // export default CarListing;
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { Container, Row } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection/CommonSection";
  import Item3 from "../components/UI/Item/Item3";
-import carData from '../assets/data/carData'
-const CarListing = () => {
+ import axios from 'axios'
+ const CarListing = () => {
+  const[carData,setcarData]=useState([])
+  useEffect(() => {
+    const fetchData = async () => {
+      const jwt_token=localStorage.getItem('jwt_token');
+      const config={
+        headers:{
+          Authorization:`Bearer ${jwt_token}`
+        }
+      }
+      try {
+        const response = await axios.get('http://localhost:8000/api/v1/user/car-auctions',config);
+        setcarData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   // const handleBidSubmit = (bid, itemId) => {
   //   // Update auction status for the specific item
   //   const updatedCarData = carData.map((item) => {

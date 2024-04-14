@@ -365,6 +365,15 @@ export default function Aqar() {
                  بيع سيارة
                 </Typography>
                 <form onSubmit={handleSubmitCar}>
+                <Grid item xs={12}>
+                      <TextField
+                        name="engineType"
+                        variant="outlined"
+                        required
+                        fullWidth
+                        label="الاسم"
+                      />
+                    </Grid>
                   <Grid container spacing={2}>
                     <Grid item xs={12}>
                       <TextField
@@ -419,6 +428,16 @@ export default function Aqar() {
                         fullWidth
                         label="السعر"
                         type="number"
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        name="engineType"
+                        variant="outlined"
+                        required
+                        fullWidth
+                        label="الاسم"
+                        type="time"
                       />
                     </Grid>
                     <Grid item xs={12}>

@@ -65,8 +65,7 @@ const AddBazar=()=> {
     <Container>
            <AddCar  expanded={expanded === "panel1"} handle={handleAccordionChange("panel1")} />
             <AddAqar expanded={expanded === "panel2"} handle={handleAccordionChange("panel2")} />
-           <AddLap expanded={expanded === "panel3"} handle={handleAccordionChange("panel3")}/>
-           <Add expanded={expanded === "panel4"} handle={handleAccordionChange("panel4")}/> 
+            <Add expanded={expanded === "panel3"} handle={handleAccordionChange("panel3")}/> 
     </Container>
     );
 }

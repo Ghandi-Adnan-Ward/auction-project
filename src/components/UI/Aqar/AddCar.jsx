@@ -19,18 +19,60 @@ import logoanything from "../../../assets/all-images/Addbazar-img/anything.png"
 import Container from "@mui/material/Container";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
+import DateTimePicker from 'react-datetime-picker'
 const AddCar = (props) => {
-    
-    const handleSubmit = async (event) => {
+  const [image, setImage] = useState('')
+  const changeHandler = (e)=>{
+    setImage(e.target.files[0]);
+    console.log(e.target.files[0])
+}
+  // const handle=(e)=>{
+  //    image=e.target.files[0]
+  // }
+     const handleSubmit = async (event) => {
         event.preventDefault(); 
-      
-        const formData = new FormData(event.target);
-      
+        const category_id=1;
+        // const image='../../../assets/all-images/cars-img/bmw-offer.png'
+        const status="ongoing";
+        const formCar = new FormData();
+        formCar.append('name',event.target.name.value);
+        formCar.append('status',status);
+        formCar.append('category_id',category_id);
+        formCar.append('brand',event.target.brand.value);
+        formCar.append('model',event.target.model.value);
+        formCar.append('manufacturing_year',event.target.manufacturing_Year.value);
+        formCar.append('registration_year',event.target.registration_Year.value);
+        formCar.append('engine_type',event.target.engine_Type.value);
+        formCar.append('image',image);
+        formCar.append('end_time',event.target.end_time.value);
+        formCar.append('minimum_bid',event.target.price.value);
+         // const postDataCar = {
+        //   name: formCar.get("name"),
+        //   category_id:category_id,
+        //   status:status,
+        //   brand: formCar.get("brand"),
+        //   model: formCar.get("model"),
+        //   manufacturing_year: formCar.get("manufacturing_Year"),
+        //   registration_year: formCar.get("registration_Year"),
+        //   engine_type: formCar.get("engine_Type"),
+        //   end_time: formCar.get("end_time"),
+        //   price: formCar.get("price"),
+        //  };
+         const jwt_token=localStorage.getItem('jwt_token');
+          const config={
+            headers:{
+              Authorization:`Bearer ${jwt_token}`
+            }
+          }
         try {
-           const response = await axios.post('', formData);
+          
       
-           console.log('Response:', response.data);
-        } 
+           axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
+           .then(res=>{
+            console.log('Response:', res.data);
+           }
+           )
+          }
         catch (error) {
 
            console.error('Error:', error);
@@ -65,14 +107,25 @@ const AddCar = (props) => {
                   Sell Car
                 </Typography>
                 <form onSubmit={handleSubmit} >
+                
                   <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                      <TextField
+                        name="name"
+                        variant="outlined"
+                        required
+                        fullWidth
+                        focused
+                        label="الاسم"
+                      />
+                    </Grid>
                     <Grid item xs={12}>
                       <TextField
                         name="brand"
                         variant="outlined"
                         required
                         fullWidth
-                        label="Brand"
+                        label="العلامة التجارية"
                       />
                     </Grid>
                     <Grid item xs={12}>
@@ -81,35 +134,49 @@ const AddCar = (props) => {
                         variant="outlined"
                         required
                         fullWidth
-                        label="Model"
+                        label="الموديل"
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        name="manufacturingYear"
+                        name="manufacturing_Year"
                         variant="outlined"
                         required
                         fullWidth
-                        label="Manufacturing Year"
+                        label="سنة التصنيع"
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        name="registrationYear"
+                        name="registration_Year"
                         variant="outlined"
                         required
                         fullWidth
-                        label="Registration Year"
+                        label="سنة التسجيل"
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
-                        name="engineType"
+                        name="engine_Type"
                         variant="outlined"
                         required
                         fullWidth
-                        label="Engine Type"
+                        label="نوع المحرك"
                       />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        name="end_time"
+                        variant="outlined"
+                        required
+                        fullWidth
+                        label="وقت انتهاء المزاد"
+                        type="datetime-local"
+                        InputLabelProps={{
+                          shrink:true
+                        }}
+                      />
+                        
                     </Grid>
                     <Grid item xs={12}>
                       <TextField
@@ -117,7 +184,7 @@ const AddCar = (props) => {
                         variant="outlined"
                         required
                         fullWidth
-                        label="Price"
+                        label="السعر"
                         type="number"
                       />
                     </Grid>
@@ -128,15 +195,20 @@ const AddCar = (props) => {
                         fullWidth
                         multiline
                         rows={4}
-                        label="Description"
+                        label="الوصف"
                       />
                     </Grid>
                     <Grid item xs={12}>
                       <input
                         type="file"
                         name="image"
-                        accept="image/*"
-                        multiple
+                        accept="images/*"
+                        // onChange={(e)=>{
+                        //   const file=e.target.files[0]
+                        //   console.log(file)
+                        // }}
+                        onChange={changeHandler}
+                        multiple={false}
                       />
                     </Grid>
                   </Grid>
@@ -151,9 +223,7 @@ const AddCar = (props) => {
                   </Button>
                 </form>
               </div>
-              <Box mt={5}>
-                {/* Add any additional components here if needed */}
-              </Box>
+              
             </Container>
         </Accordion>
 )}

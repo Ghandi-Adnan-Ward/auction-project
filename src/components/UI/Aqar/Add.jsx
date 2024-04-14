@@ -1,42 +1,56 @@
 import  React,{useState} from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-//import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-// import FormControlLabel from "@mui/material/FormControlLabel";
-// import Checkbox from "@mui/material/Checkbox";
-//import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import logocar from "../../../assets/all-images/Addbazar-img/car.png"
-import logolaptop from "../../../assets/all-images/Addbazar-img/laptop.png"
 import logoanything from "../../../assets/all-images/Addbazar-img/anything.png"
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Container from "@mui/material/Container";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-
+import axios from 'axios'
+ 
 const Add = (props) => {
-  
-  const handleSubmit = async (event) => {
-    event.preventDefault(); 
-  
-    const formData = new FormData(event.target);
-  
-    try {
-       const response = await axios.post('', formData);
-  
-       console.log('Response:', response.data);
-    } 
-    catch (error) {
 
-       console.error('Error:', error);
-    }
-  };
+  const [image, setImage] = useState('')
+  const changeHandler = (e)=>{
+    setImage(e.target.files[0]);
+    console.log(e.target.files[0])
+}
+   
+  
+    const handleSubmit = async (event) => {
+      event.preventDefault(); 
+      const category_id=3;
+       const status="ongoing";
+      const formAdd = new FormData();
+      formAdd.append('name',event.target.name.value);
+      formAdd.append('status',status);
+      formAdd.append('category_id',category_id);
+      formAdd.append('description',event.target.description.value);
+      formAdd.append('minimum_bid',event.target.price.value);
+      formAdd.append('end_time',event.target.end_time.value);
+      formAdd.append('image',image);
+       
+    
+       const jwt_token=localStorage.getItem('jwt_token');
+        const config={
+          headers:{
+            Authorization:`Bearer ${jwt_token}`
+          }
+        }
+      try {
+         axios.post('http://localhost:8000/api/v1/user/other-auctions', formAdd,config)
+         .then(res=>{
+          console.log('Response:', res.data);
+         }
+         )
+        }
+      catch (error) {
+  
+         console.error('Error:', error);
+      }
+    };
   return (
     <div>
       <Accordion
@@ -65,36 +79,56 @@ const Add = (props) => {
                   Sell Your Item
                 </Typography>
                 <form onSubmit={handleSubmit}>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="itemName"
-                    label="Item Name"
-                    autoFocus
-                  />
+                <Grid item xs={12}>
+                      <TextField
+                        name="name"
+                        variant="outlined"
+                        required
+                        fullWidth
+                        focused
+                        label="الاسم"
+                      />
+                    </Grid>
                   <TextField
                     variant="outlined"
                     margin="normal"
                     required
                     fullWidth
                     id="description"
-                    label="Description"
+                    label="وصف الغرض"
                     multiline
                     rows={4}
                   />
+                  <Grid item xs={12}>
+                      <TextField
+                        name="end_time"
+                        variant="outlined"
+                        required
+                        fullWidth
+                        label="وقت انتهاء المزاد"
+                        type="datetime-local"
+                        InputLabelProps={{
+                          shrink:true
+                        }}
+                      />
+                        
+                    </Grid>
                   <TextField
                     variant="outlined"
                     margin="normal"
                     required
                     fullWidth
                     id="price"
-                    label="Price"
+                    label="السعر"
                     type="number"
                   />
                   <Grid item xs={12} sx={{ mt: 2 }}>
-                    <input type="file" name="image" accept="image/*" multiple />
+                    <input
+                     type="file" 
+                     name="image"
+                      accept="image/*" 
+                      onChange={changeHandler}
+                      multiple={false} />
                   </Grid>
                   <Button
                     type="submit"
@@ -112,5 +146,4 @@ const Add = (props) => {
     </div>
   )
 }
-
 export default Add

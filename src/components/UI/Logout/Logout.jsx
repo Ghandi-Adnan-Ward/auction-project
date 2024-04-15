@@ -24,36 +24,24 @@ import {useNavigate} from 'react-router-dom'
     
   
   const handleSubmit = async (event) => {
-    event.preventDefault(); 
-  
-    // const formData = {
-    //    first_name:event.target.first_name.value,
-    //    last_name:event.target.last_name.value,
+    event.preventDefault();     
+    setLogout(true)
 
-    //   email:event.target.email.value,
-    //   password:event.target.password.value
-
-    // }
-   
-    
     try {
       
        const response = await axios.post('http://localhost:8000/api/v1/user/logout',config);
+       localStorage.clear()
        console.log('Response:', response.data);
-      console.log('Response:', jwt_token);
-
-      navigate('/')
+       console.log('Response:', jwt_token);
+       navigate('/')
       } 
     catch (error) {
-
        console.error('Error:', error);
     }
-
-    setLogout(true)
   };
   return (
     <div>
-         {Logout? <CircularIndeterminate/> :
+         {Logout? <Spinner/> :
          <Container component="main" maxWidth="xs">
          <CssBaseline />
          <Box
@@ -71,47 +59,6 @@ import {useNavigate} from 'react-router-dom'
              تسجيل خروج
            </Typography>
            <form onSubmit={handleSubmit}    >
-             {/* <Grid container spacing={2}>
-               <Grid item xs={12} sm={6}>
-                 <TextField
-                   name="first_name"
-                   required
-                   fullWidth
-                   id="first_name"
-                   label="الاسم الأول"
-                   autoFocus
-                 />
-               </Grid>
-               <Grid item xs={12} sm={6}>
-                 <TextField
-                   required
-                   fullWidth
-                   id="last_name"
-                   label="الاسم الثاني"
-                   name="last_name"
-                  />
-               </Grid> 
-               <Grid item xs={12}>
-                 <TextField
-                   required
-                   fullWidth
-                   id="email"
-                   label="البريد الالكتروني"
-                   name="email"
-                  />
-               </Grid>
-               <Grid item xs={12}>
-                 <TextField
-                   required
-                   fullWidth
-                   name="password"
-                   label="كلمة المرور"
-                   type="password"
-                   id="password"
-                  />
-               </Grid>
-                
-             </Grid> */}
              <Button
                type="submit"
                fullWidth

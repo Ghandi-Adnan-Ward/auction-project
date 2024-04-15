@@ -22,50 +22,27 @@ import AddCar from "./AddCar";
 import Add from "./Add";
 import AddAqar from "./AddAqar";
 import AddLap from "./AddLap";
+import { useNavigate } from "react-router-dom";
 //import { blue, blueGrey } from "@mui/material/colors";
 
 const AddBazar=()=> {
   
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     brand: data.get("brand"),
-  //     model: data.get("model"),
-  //     manufacturingYear: data.get("manufacturingYear"),
-  //     registrationYear: data.get("registrationYear"),
-  //     engineType: data.get("engineType"),
-  //     price: data.get("price"),
-  //     description: data.get("description"),
-  //   });
-  // };
-
-  // const [carDetails, setCarDetails] = useState({
-  //   make: "",
-  //   model: "",
-  //   year: "",
-  //   price: "",
-  // });
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setCarDetails({
-  //     ...carDetails,
-  //     [name]: value,
-  //   });
-  // };
-
+const navigate=useNavigate()
   const [expanded, setExpanded] = React.useState(false);
+  const jwt_token=localStorage.getItem('jwt_token');
 
   const handleAccordionChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+     setExpanded(isExpanded ? panel : false);
+      
   };
 
   return (
     <Container>
-           <AddCar  expanded={expanded === "panel1"} handle={handleAccordionChange("panel1")} />
-            <AddAqar expanded={expanded === "panel2"} handle={handleAccordionChange("panel2")} />
-            <Add expanded={expanded === "panel3"} handle={handleAccordionChange("panel3")}/> 
+      
+      <AddCar  expanded={expanded === "panel1"} handle={handleAccordionChange("panel1")} />
+      <AddAqar expanded={expanded === "panel2"} handle={handleAccordionChange("panel2")} />
+      <Add expanded={expanded === "panel3"} handle={handleAccordionChange("panel3")}/> 
+              
     </Container>
     );
 }

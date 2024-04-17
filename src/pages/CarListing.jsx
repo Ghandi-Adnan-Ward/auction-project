@@ -93,9 +93,10 @@ import React, { useState, useEffect } from "react";
 import { Container, Row } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection/CommonSection";
-import Item3 from "../components/UI/Item/Item3";
-import axios from 'axios';
+ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import Item1 from "../components/UI/Item/Item1";
+import { Fade } from "@material-ui/core";
 
 const CarListing = () => {
   const navigate = useNavigate();
@@ -119,7 +120,9 @@ const CarListing = () => {
 
       try {
         const response = await axios.get('http://localhost:8000/api/v1/user/car-auctions', config);
+
         setCarData(response.data);
+          
         console.log(response.data)
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -130,20 +133,21 @@ const CarListing = () => {
   }, []);
 
   return (
-    <Helmet title="Cars">
+       <Helmet title="Cars">
       <CommonSection title="السيارات" />
       <Container>
         <Row>
           {carData.map((item) => (
-            <Item3
+            <Item1
               item={item}
               key={item.id}
-            />
+              image={item.image}
+              />
           ))}
         </Row>
       </Container>
     </Helmet>
-  );
+   );
 };
 
 export default CarListing;

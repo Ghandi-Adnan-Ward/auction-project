@@ -3,7 +3,7 @@ import React from "react";
 import CommonSection from "../components/UI/CommonSection/CommonSection";
 import Helmet from "../components/Helmet/Helmet";
 import AboutSection from "../components/UI/AboutSection/AboutSection";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Fade } from "reactstrap";
 import Advertising from "../components/UI/Advertising/Advertising";
 
 import OurMembers from '../components/UI/OurMembers/OurMembers'
@@ -12,6 +12,8 @@ import "../styles/About.css";
 const About = () => {
   return (
     <Helmet title="About">
+          <Fade>
+
       <CommonSection title="حول الموقع" />
       <AboutSection aboutClass="aboutPage" />
  
@@ -28,7 +30,8 @@ const About = () => {
             <OurMembers />
           </Row>
         </Container>
-      </section>
+      </section>    </Fade>
+
     </Helmet>
   );
 };

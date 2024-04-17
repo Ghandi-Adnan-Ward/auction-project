@@ -99,23 +99,19 @@ useEffect(() => {
   
   const handleBidSubmit = (event) => {
     event.preventDefault();
-    const jwt_token=localStorage.getItem('jwt_token');
-    const bbid=new FormData();
+     const bbid=new FormData();
     bbid.append('bid_amount',event.target.bid_amount.value)
     try {
       const id=localStorage.getItem('id')
       console.log(id)
-      if(jwt_token!==null){
-      
+       
       axios.post(url,bbid,config )
       .then(res=>{
        console.log(res.data)
         console.log(config.headers)
       }
-      )}
-      else{
-        navigate('/')
-      }
+      )
+       
       }
       catch (error) {
       console.error('Error:', error);
@@ -125,9 +121,7 @@ useEffect(() => {
       setHighestBid(bid_amount);
       // sendBidToBackend(bid_amount)
     }
-    else{
-      navigate('/login')
-    }
+     
     setBid(0)
   }
      

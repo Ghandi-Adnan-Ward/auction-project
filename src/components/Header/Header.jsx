@@ -4,7 +4,21 @@ import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
  
-const navLinks = [
+const navLinksNOtAuth = [
+  {
+    path: "/home",
+    display: "الرئيسية",
+  },
+  {
+    path: "/about",
+    display: "حول",
+  },   
+  {
+    path: "/contact",
+    display: "تواصل معنا",
+  },
+];
+const navLinksAuth = [
   {
     path: "/home",
     display: "الرئيسية",
@@ -32,29 +46,18 @@ const navLinks = [
     display: "إضافة"
   },
 ];
-
 const Header = () => {
   const menuRef = useRef(null);
    const navigate = useNavigate();
-   
-  useEffect(() => {
-    const fetchData = async () => {
-      const jwt_token = localStorage.getItem('jwt_token');
+   const jwt_token = localStorage.getItem('jwt_token');
+    
 
-   
-      if (jwt_token==null) {
-        navigate('/login'); // Redirect to login page if jwt_token is not present
-        return;
-       }
-
-      
-    }
-
-    fetchData();
-  }, [navigate]);
-   
   
-  const toggleMenu = () => menuRef.current.classList.toggle("menu__active");
+  const toggleMenu = () => {
+    
+      menuRef.current.classList.toggle("menu__active");
+
+    }
 
   return (
     <header className="header">
@@ -70,8 +73,8 @@ const Header = () => {
                 </span>
               </div>
             </Col>
-
-            <Col lg="6" md="6" sm="6">
+              {jwt_token==null?
+              <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
                 <Link to="/login" className=" d-flex align-items-center gap-1">
                   <i className="ri-login-circle-line"></i> تسجيل الدخول
@@ -81,12 +84,19 @@ const Header = () => {
                 <Link to="/register" className=" d-flex align-items-center gap-1">
                   <i className="ri-user-line"></i> إنشاء حساب
                 </Link>
-
-                <Link to="/logout" className=" d-flex align-items-center gap-1">
+                 
+               </div>
+            </Col>
+            :
+            <Col lg="6" md="6" sm="6">
+              <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
+                 <Link to="/logout" className=" d-flex align-items-center gap-1">
                   <i className="ri-login-circle-line"></i> تسجيل خروج
                 </Link>
-              </div>
+               </div>
             </Col>
+            }
+            
           </Row>
           
         </Container>
@@ -140,8 +150,9 @@ const Header = () => {
               sm="0"
               className=" d-flex align-items-center justify-content-end "
             >
-              <button className="header__btn btn ">
-                <Link to="/contact">
+              <button className="header__btn btn " onClick={toggleMenu}>
+                <Link to="/contact" >
+                     
                   <i className="ri-phone-line"></i>تواصل معنا
                 </Link>
               </button>
@@ -153,15 +164,16 @@ const Header = () => {
       {/* ========== main navigation =========== */}
 
       <div className="main__navbar">
-         <Container>
+       <Container>
         <div className="navigation__wrapper d-flex align-items-center justify-content-between">
           <span className="mobile__menu">
             <i className="ri-menu-line" onClick={toggleMenu}></i>
           </span>
 
           <div className="navigation" ref={menuRef} onClick={toggleMenu}>
+             {jwt_token==null?
             <div className="menu">
-              {navLinks.map((item, index) => (
+              {navLinksNOtAuth.map((item, index) => (
                 <NavLink
                   to={item.path}
                   className={(navClass) =>
@@ -173,9 +185,22 @@ const Header = () => {
                 </NavLink>
               ))}
             </div>
-          </div>
-
-    
+            :
+            <div className="menu">
+              {navLinksAuth.map((item, index) => (
+                <NavLink
+                  to={item.path}
+                  className={(navClass) =>
+                    navClass.isActive ? "nav__active nav__item" : "nav__item"
+                  }
+                  key={index}
+                >
+                  {item.display}
+                </NavLink>
+              ))}
+            </div>
+            }
+            </div>    
         </div>
       </Container>
           

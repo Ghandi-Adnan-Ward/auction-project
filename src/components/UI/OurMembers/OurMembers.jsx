@@ -10,7 +10,7 @@ const OUR__MEMBERS = [
   {
     name: "غاندي ورد",
     experience: "5 years of experience",
-    fbUrl: "#",
+    fbUrl: "https://www.facebook.com/ghandi.adnan.ward?mibextid=ZbWKwL",
     instUrl: "#",
     twitUrl: "#",
     linkedinUrl: "#",
@@ -20,7 +20,7 @@ const OUR__MEMBERS = [
   {
     name: "رجائي حمود",
     experience: "5 years of experience",
-    fbUrl: "#",
+    fbUrl: "https://www.facebook.com/profile.php?id=100013391958470&mibextid=ZbWKwL",
     instUrl: "#",
     twitUrl: "#",
     linkedinUrl: "#",

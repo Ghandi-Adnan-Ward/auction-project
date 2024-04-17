@@ -69,6 +69,7 @@ const AddCar = (props) => {
       
            axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
            .then(res=>{
+              
             console.log('Response:', res.data);
            }
            )

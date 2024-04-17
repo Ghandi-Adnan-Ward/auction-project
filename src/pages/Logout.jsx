@@ -1,14 +1,13 @@
 import React from "react";
-import Log from '../components/UI/Login/Log'
 import Helmet from "../components/Helmet/Helmet";
-
-const Login = () => {
+import Logout from "../components/UI/Logout/Logout";
+ const Logout = () => {
   return (
     <Helmet>
-        <Log />
+        <Logout />
     </Helmet>
   )
 
 };
 
-export default Login;
+export default Logout;

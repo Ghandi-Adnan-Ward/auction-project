@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import Spinner from '../Spinner/Spinner';
- function Login() {
+ function Register() {
   const[Loading,setLoading]=useState(false)
   const navigate=useNavigate()
   const handleSubmit = async (event) => {
@@ -133,4 +133,4 @@ import Spinner from '../Spinner/Spinner';
   )
 }
 
-export default Login
+export default Register

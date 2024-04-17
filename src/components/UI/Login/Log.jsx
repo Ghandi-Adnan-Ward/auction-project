@@ -13,12 +13,14 @@ import Container from '@mui/material/Container';
 import axios from 'axios';
 import Spinner from '../Spinner/Spinner';
 import { useNavigate } from 'react-router-dom';
+ 
  function Login() {
   const[Loading,setLoading]=useState(false)
   const navigate =useNavigate()
+  
   const handleSubmit = async (event) => {
     event.preventDefault(); 
- 
+   
     const formData = {
       email:event.target.email.value,
       password:event.target.password.value
@@ -38,8 +40,8 @@ import { useNavigate } from 'react-router-dom';
             //     Authorization:`Bearer ${jwt_token}`
             //   }
             // }
-            
-            navigate('/')
+            alert('you have logged in')
+             navigate('/')
             // setTimeout(() => {
             //   const response =   axios.post('http://localhost:8000/api/v1/user/logout', formData,config);
             //   localStorage.clear();
@@ -60,10 +62,12 @@ import { useNavigate } from 'react-router-dom';
   return (
     <div>
        {Loading?<Spinner/>:
+       
        <Container component="main" maxWidth="xs">
+        
        <CssBaseline />
        <Box
-       
+      
          sx={{
            marginTop: 8,
            marginBottom: 8,

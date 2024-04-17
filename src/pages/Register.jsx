@@ -1,7 +1,7 @@
 import React from "react";
 import Helmet from "../components/Helmet/Helmet";
-import Register from '../components/UI/register/Register'
- const Register = () => {
+import Register from "../components/UI/register/Register";
+  const Register = () => {
   return (
     <Helmet>
         <Register />

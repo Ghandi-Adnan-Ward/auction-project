@@ -33,8 +33,8 @@ const navLinksAuth = [
   },
 
   {
-    path: "/laptop",
-    display: "لابتوبات",
+    path: "/aqar",
+    display: "عقارات",
   },
   {
     path: "/contact",

@@ -70,13 +70,10 @@ const Add = (props) => {
            
           </Typography>
         </AccordionSummary>
-             {/*   اضافة مزاد لأي شيء  */}
-
-            <Container component="main" maxWidth="xs">
+             <Container component="main" maxWidth="xs">
                <div  >
                 <Typography component="h1" variant="h4" className="d-flex justify-content-center">
-                <img src={logoanything} alt="Logo"    width="40" height="40"  style={{ verticalAlign: '-0.200em'}}  />
-                  Sell Your Item
+                     <img src={logoanything} alt="Logo"    width="40" height="40"  style={{ verticalAlign: '-0.200em'}} className="mb-2" />
                 </Typography>
                 <form onSubmit={handleSubmit}>
                 <Grid item xs={12}>
@@ -137,8 +134,8 @@ const Add = (props) => {
                     color="primary"
                     sx={{ mt: 3, mb: 2 }}
                   >
-                    Post Item for Sale
-                  </Button>
+                    إرسال الطلب
+                   </Button>
                 </form>
               </div>
             </Container>

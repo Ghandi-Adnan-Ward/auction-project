@@ -38,9 +38,8 @@ const Home = () => {
         try {
           const response = await axios.get('http://localhost:8000/api/v1/user/car-auctions', config);
           setCarData(response.data);
-            
           console.log(response.data)
-        } catch (error) {
+         } catch (error) {
           console.error('Error fetching data:', error);
         }
       }

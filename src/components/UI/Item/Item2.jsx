@@ -6,6 +6,7 @@ import { Col } from "reactstrap";
 import './Item.css'
 import moment from 'moment';
 const Item2 = (props) => {
+  
   const { imgUrl,  lapName,   time, price } = props.item;
   const [bid, setBid] = useState(0);
   const [bids, setBids] = useState([]);

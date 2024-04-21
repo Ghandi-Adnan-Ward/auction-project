@@ -10,10 +10,10 @@ import LaptopDetails from "../pages/LaptopDetails";
 import Contact from '../pages/Contact'
 import Login from "../pages/Login";
 import Logout from "../components/UI/Logout/Logout";
- import Register from "../components/UI/register/Register";
-import Aqar from "../pages/Aqar";
+import Register from "../components/UI/register/Register";
 import AddBazar from "../pages/AddBazar";
-import Item6 from "../components/UI/Item/Item6";
+// import Item6 from "../components/UI/Item/Item6";
+import AqarListing from '../pages/AqarListing';
 const Routers = () => {
   return (
     <Routes>
@@ -22,8 +22,8 @@ const Routers = () => {
       <Route path="/about" element={<About />} />
       <Route path="/cars" element={<CarListing />} />
       <Route path="/cars/:slug" element={<CarDetails />} />
-      <Route path="/laptop" element={<Laptop />} />
-      <Route path="/laptop/:slug" element={<LaptopDetails />} />
+      <Route path="/aqar" element={<AqarListing />} />
+      {/* <Route path="/laptop/:slug" element={<LaptopDetails />} /> */}
       <Route path="/contact" element={<Contact />} />
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />

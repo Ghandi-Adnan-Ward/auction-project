@@ -96,12 +96,11 @@ import CommonSection from "../components/UI/CommonSection/CommonSection";
  import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import Item1 from "../components/UI/Item/Item1";
-import { Fade } from "@material-ui/core";
 
 const CarListing = () => {
   const navigate = useNavigate();
   const [carData, setCarData] = useState([]);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const jwt_token = localStorage.getItem('jwt_token');
@@ -119,16 +118,21 @@ const CarListing = () => {
       
 
       try {
-        const response = await axios.get('http://localhost:8000/api/v1/user/car-auctions', config);
+        // const response = await axios.get('http://localhost:8000/api/v1/user/car-auctions', config);
 
-        setCarData(response.data);
+        // setCarData(response.data);
           
-        console.log(response.data)
+        // console.log(response.data.id)
+        axios.get('http://localhost:8000/api/v1/user/car-auctions',config)
+        .then(res=>{
+          setCarData(res.data);
+          console.log(res.data)
+        })
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
+   
     fetchData();
   }, []);
 
@@ -141,7 +145,6 @@ const CarListing = () => {
             <Item1
               item={item}
               key={item.id}
-              image={item.image}
               />
           ))}
         </Row>

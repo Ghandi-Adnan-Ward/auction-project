@@ -148,7 +148,7 @@ useEffect(() => {
     <Col lg="4" md="4" sm="6" className="mb-5">
       <div className="car__item">
         <div className="car__img">
-          <img src={`http://localhost/storage/app/public/${image}`} alt="car" className="w-100" />
+          <img src={`http://localhost:8000/storage/${image}`} alt="car" className="w-100" />
         </div>
          <div className="car__item-content mt-4">
           <h4 className="section__title text-center">{name}</h4>

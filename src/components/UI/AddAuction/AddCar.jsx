@@ -6,13 +6,18 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import logocar from "../../../assets/all-images/Addbazar-img/car.png"
-import logolaptop from "../../../assets/all-images/Addbazar-img/laptop.png"
-import logoanything from "../../../assets/all-images/Addbazar-img/anything.png"
 import Container from "@mui/material/Container";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
+import Spinner from '../Spinner/Spinner';
+import { useNavigate } from 'react-router-dom';
+import { Alert } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+
 const AddCar = (props) => {
+  const[Loading,setLoading]=useState(false)
+  const navigate =useNavigate()
+  const [showAlert, setShowAlert] = useState(false);
   const [image, setImage] = useState('')
   const changeHandler = (e)=>{
     setImage(e.target.files[0]);
@@ -23,6 +28,8 @@ const AddCar = (props) => {
   // }
      const handleSubmit = async (event) => {
         event.preventDefault(); 
+        setLoading(true)
+        setShowAlert(true)
         const category_id=1;
         // const image='../../../assets/all-images/cars-img/bmw-offer.png'
         const status="ongoing";
@@ -61,9 +68,11 @@ const AddCar = (props) => {
       
            axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
            .then(res=>{
-            
+            setLoading(false)
+            setShowAlert(false)
             console.log(res.data.auction.id)
             console.log('Response:', res.data);
+            navigate('/cars')
            }
            )
           }
@@ -73,10 +82,15 @@ const AddCar = (props) => {
         }
       };
   return (
+    <div>
+    {Loading ? 
+      <Spinner/>
+          :
     <Accordion
         expanded={props.expanded}
         onChange={props.handle}
       >
+       
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2d-content"
@@ -196,7 +210,7 @@ const AddCar = (props) => {
                       <input
                         type="file"
                         name="image"
-                        accept="images/*"
+                        accept="image/*"
                         // onChange={(e)=>{
                         //   const file=e.target.files[0]
                         //   console.log(file)
@@ -220,6 +234,14 @@ const AddCar = (props) => {
               
             </Container>
         </Accordion>
+                  }
+        {showAlert && (
+              <Alert severity="success" >
+                  يتم الآن تحميل المزاد
+                  <CheckIcon/>
+                </Alert>
+             )}
+        </div>
 )}
 
 export default AddCar

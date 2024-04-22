@@ -1,15 +1,12 @@
-/* ======== google fonts ======== */
-@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap");
+ @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap");
 
-/* ======= base style ====== */
-* {
+ * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Source Sans Pro", sans-serif;
 }
 
-/* ========= pre-define css ========= */
 h1,
 h2,
 h3,
@@ -104,4 +101,29 @@ section {
   .section__subtitle {
     font-size: 1.1rem;
   }
+}
+ 
+@keyframes slideInOut {
+  0% {
+    transform: translateX(-500%);
+    width: 25%;
+  } 
+  50%{
+    transform: translateX(15%);
+    width: 50%;
+  }
+  100%{
+    transform: translateX(-15%);
+    width: 75%;
+   }
+  
+}
+
+.custom-alert {
+  animation: slideInOut 1s forwards;
+  text-align: center;
+}
+
+.custom-alert h4 {
+  margin: 0;
 }

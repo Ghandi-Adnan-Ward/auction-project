@@ -7,8 +7,8 @@ import { Button, TextField } from "@material-ui/core";
 import { useEffect } from "react";
 import axios from "axios";
  
-const Item4 = (props) => {
-  const {name,minimum_bid ,end_time,details,image,id ,status} = props.item;
+const Item3 = (props) => {
+  const {name,minimum_bid ,end_time,image,id ,description,status} = props.item;
   const [currentTime, setCurrentTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
   const [bid, setBid] = useState(0);
   const [auctionActive, setAuctionActive] = useState(false);
@@ -27,7 +27,7 @@ const Item4 = (props) => {
   const url='http://localhost:8000/api/v1/user/auctions/'+id+'/bid';
   const WinnerUrl='http://localhost:8000/api/v1/user/auctions/'+id+'/winner';
   const StatusUrl='';
-
+   
      const getWinnerData=()=> {
 
       try{
@@ -86,7 +86,7 @@ const Item4 = (props) => {
         } else if (now.isAfter(end)) {
           setAuctionActive(false);
           setAuctionEnded(true);
-          //setStatus('closed')
+          setStatus('closed')
          }
       }, 1000);
 
@@ -94,7 +94,7 @@ const Item4 = (props) => {
   }, [])
    
   
- 
+  
 
   const handleBidChange = (e) => {
     const newBid = parseFloat(e.target.value);
@@ -152,7 +152,7 @@ useEffect(() => {
       axios.post(url,bbid,config )
       .then(res=>{
        console.log(res.data)
-       console.log(config.headers)
+        console.log(config.headers)
       }
       ) 
       }
@@ -162,11 +162,12 @@ useEffect(() => {
     const bid_amount = event.target.bid_amount.value;
     if ( bid_amount > highestBid  ) {
       setHighestBid(bid_amount);
-    }
+     }
     
     setBid(0)
   }
   
+   
 
   return (
     <Col lg="4" md="4" sm="6" className="mb-5">
@@ -184,7 +185,7 @@ useEffect(() => {
           <div className="car__item-info d-flex align-items-center justify-content-between mt-3 mb-4">
             <span className=" d-flex align-items-center gap-1">
             <svg   width="35" height="35" viewBox="0 0 24 24"  style={{ verticalAlign: '-0.125em' }}><g transform="translate(24 0) scale(-1 1)"><path fill="currentColor" d="M21 21H3a1 1 0 0 1-1-1v-7.513a1 1 0 0 1 .343-.754L6 8.544V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1M9 19h3v-6.058L8 9.454l-4 3.488V19h3v-4h2zm5 0h6V5H8v2.127c.234 0 .469.082.657.247l5 4.359a1 1 0 0 1 .343.754zm2-8h2v2h-2zm0 4h2v2h-2zm0-8h2v2h-2zm-4 0h2v2h-2z"></path></g></svg>
-               {details?.country} {details?.city} {details?.area}
+               {description}
             </span>
           
           </div>
@@ -225,4 +226,4 @@ useEffect(() => {
   );
 };
 
-export default Item4;
+export default Item3;

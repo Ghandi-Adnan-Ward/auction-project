@@ -6,8 +6,7 @@ import moment from 'moment';
 import { Button, TextField } from "@material-ui/core";
 import { useEffect } from "react";
 import axios from "axios";
-import logocar from "../../../assets/all-images/Addbazar-img/car.png"
-
+import './Item.css'
 const Item1 = (props) => {
   const {name,minimum_bid ,end_time,details,image,id ,status} = props.item;
   const [currentTime, setCurrentTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -18,7 +17,7 @@ const Item1 = (props) => {
   const jwt_token=localStorage.getItem('jwt_token');
   const [WinnerData,setWinnerData]=useState([]);
   const [WinnerhighestBid, WinnersetHighestBid] = useState([]);
-
+  const[Status,setStatus]=useState(status)
  const data=WinnerData;
   const config={
     headers:{
@@ -27,7 +26,8 @@ const Item1 = (props) => {
   }
   const url='http://localhost:8000/api/v1/user/auctions/'+id+'/bid';
   const WinnerUrl='http://localhost:8000/api/v1/user/auctions/'+id+'/winner';
-   
+  const StatusUrl='';
+
      const getWinnerData=()=> {
 
       try{
@@ -36,6 +36,7 @@ const Item1 = (props) => {
             setWinnerData(res.data.winner.first_name)
             WinnersetHighestBid(res.data.winner.last_name)
             console.log(res.data.winner.id)
+            console.log(Status)
            }
              
         )
@@ -44,6 +45,21 @@ const Item1 = (props) => {
         console.error(error)
       }
     }
+    // const handleStatus=()=> {
+
+    //   try{
+    //     axios.post(StatusUrl).then(res =>
+    //       {
+    //         console.log(res.data)
+    //         setStatus('closed')
+    //       }
+             
+    //     )
+    //   }
+    //   catch(error){
+    //     console.error(error)
+    //   }
+    // }
  useEffect(() => {
     if(status=='closed')
   {
@@ -71,16 +87,15 @@ const Item1 = (props) => {
         } else if (now.isAfter(end)) {
           setAuctionActive(false);
           setAuctionEnded(true);
-         }
+          // handleStatus()
+          }
       }, 1000);
 
        return () => clearInterval(intervalId);
   }, [])
    
   
-  const sendBidToBackend =  (event) => {
-    
-  };
+   
 
   const handleBidChange = (e) => {
     const newBid = parseFloat(e.target.value);
@@ -119,15 +134,13 @@ useEffect(() => {
 
 
  const formatTime = (totalSeconds) => {
-  const months = Math.floor(totalSeconds / (3600 * 24 * 30)); // حوالي 30 يومًا في الشهر
-  const remainingDays = Math.floor((totalSeconds % (3600 * 24 * 30)) / (3600 * 24));
-  const remainingSeconds = totalSeconds % 3600;
+  const months = Math.floor(totalSeconds / (3600 * 24 * 30)); 
+  const remainingDays = Math.floor((totalSeconds % (3600 * 24 * 30.4)) / (3600 * 24));
+  const remainingHours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+  const remainingMinutes = Math.floor((totalSeconds % 3600) / 60); 
+  const remainingSeconds = totalSeconds % 60;
 
-  const hours = Math.floor((remainingSeconds / 3600));
-  const minutes = Math.floor((remainingSeconds % 3600) / 60);
-  const seconds = remainingSeconds % 60;
-
-  return ` ${months} شهر ${remainingDays} يوم ${hours} ساعة ${minutes} دقيقة ${seconds} ثانية`
+  return `${months} شهر ${remainingDays} يوم ${remainingHours} ساعة ${remainingMinutes} دقيقة ${remainingSeconds} ثانية`;
 };
  
   

@@ -1,4 +1,4 @@
-import  React,{useState} from "react";
+import React,{useState} from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
@@ -9,9 +9,14 @@ import logoanything from "../../../assets/all-images/Addbazar-img/anything.png"
 import Container from "@mui/material/Container";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from 'axios'
- 
+import { useNavigate } from "react-router-dom";
+import Spinner from "../Spinner/Spinner";
+import { Alert } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 const Add = (props) => {
-
+  const [showAlert, setShowAlert] = useState(false);
+  const[Loading,setLoading]=useState(false)
+  const navigate=useNavigate()
   const [image, setImage] = useState('')
   const changeHandler = (e)=>{
     setImage(e.target.files[0]);
@@ -21,7 +26,9 @@ const Add = (props) => {
   
     const handleSubmit = async (event) => {
       event.preventDefault(); 
-      const category_id=3;
+      setShowAlert(true)
+      setLoading(true)
+       const category_id=3;
        const status="ongoing";
       const formAdd = new FormData();
       formAdd.append('name',event.target.name.value);
@@ -33,16 +40,19 @@ const Add = (props) => {
       formAdd.append('image',image);
        
     
-       const jwt_token=localStorage.getItem('jwt_token');
-        const config={
-          headers:{
-            Authorization:`Bearer ${jwt_token}`
-          }
+      const jwt_token=localStorage.getItem('jwt_token');
+      const config={
+        headers:{
+          Authorization:`Bearer ${jwt_token}`
         }
+      }
       try {
          axios.post('http://localhost:8000/api/v1/user/other-auctions', formAdd,config)
          .then(res=>{
+          setShowAlert(false)
+          setLoading(false)
           console.log('Response:', res.data);
+          navigate('/other')
          }
          )
         }
@@ -53,6 +63,9 @@ const Add = (props) => {
     };
   return (
     <div>
+       {Loading ? 
+            <Spinner/>
+                :
       <Accordion
         expanded={props.expanded}
         onChange={props.handle}
@@ -140,6 +153,13 @@ const Add = (props) => {
               </div>
             </Container>
         </Accordion>
+        }
+        {showAlert && (
+              <Alert severity="success" >
+                  يتم الآن تحميل المزاد
+                  <CheckIcon/>
+                </Alert>
+      )}
     </div>
   )
 }

@@ -45,6 +45,8 @@ const AddCar = (props) => {
         formCar.append('image',image);
         formCar.append('end_time',event.target.end_time.value);
         formCar.append('minimum_bid',event.target.price.value);
+        formCar.append('description',event.target.description.value);
+
          // const postDataCar = {
         //   name: formCar.get("name"),
         //   category_id:category_id,

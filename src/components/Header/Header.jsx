@@ -1,9 +1,9 @@
-import React, {  useEffect, useRef } from "react";
+import React, {  useEffect, useRef,useState } from "react";
 
 import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
- 
+import axios from 'axios'
 const navLinksNOtAuth = [
   {
     path: "/home",
@@ -57,9 +57,35 @@ const navLinksAuth = [
 const Header = () => {
   const menuRef = useRef(null);
   const jwt_token = localStorage.getItem('jwt_token');
-    
+  const[user,setuser]=useState('')  
+  const config={
+    headers:{
+      Authorization:`Bearer ${jwt_token}`
 
+    }
+  }
+  useEffect(() => {
+    const getData = async () => {
+      // setloading(true);
+      // setShowAlert(true);
   
+      try {
+        const response = await axios.get('http://localhost:8000/api/v1/user/details',config);
+        setuser(response.data);
+        console.log(response.data);
+        // setShowAlert(false);
+        // setloading(false);
+      } catch (error) {
+        // setError(error)
+        // setShowAlert(false)
+        // setShowAlert1(true);
+        console.error('Error fetching data:', error);
+       }
+    };
+  
+    getData();
+  }, []);
+
   const toggleMenu = () => {
     
       menuRef.current.classList.toggle("menu__active");
@@ -97,6 +123,12 @@ const Header = () => {
             :
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
+              {/* <p className=" d-flex align-items-center gap-1">{user.details.first_name}</p>
+              {user.details.first_name} */}
+               <Link to="/" className=" d-flex align-items-center gap-1">
+               <i className="ri-map-pin-user-fill" style={{fontSize:'20px'}}></i>
+                {user.details?.first_name} {user.details?.last_name} 
+                </Link>
                  <Link to="/logout" className=" d-flex align-items-center gap-1">
                   <i className="ri-login-circle-line"></i> تسجيل خروج
                 </Link>

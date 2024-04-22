@@ -96,10 +96,7 @@ const Item2 = (props) => {
   
  
 
-  const handleBidChange = (e) => {
-    const newBid = parseFloat(e.target.value);
-    setBid(newBid);
-  };
+   
 
   useEffect(() => {
     const intervalid=setInterval(()=>{
@@ -143,29 +140,7 @@ useEffect(() => {
 };
  
   
-  const handleBidSubmit = (event) => {
-    event.preventDefault();
-    const bbid=new FormData();
-    bbid.append('bid_amount',event.target.bid_amount.value)
-    try {
-     
-      axios.post(url,bbid,config )
-      .then(res=>{
-       console.log(res.data)
-       console.log(config.headers)
-      }
-      ) 
-      }
-      catch (error) {
-      console.error('Error:', error);
-    }
-    const bid_amount = event.target.bid_amount.value;
-    if ( bid_amount > highestBid  ) {
-      setHighestBid(bid_amount);
-    }
-    
-    setBid(0)
-  }
+   
   
 
   return (
@@ -189,23 +164,9 @@ useEffect(() => {
           
           </div>
           {auctionActive && !auctionEnded   ? (
-            <form onSubmit={handleBidSubmit }>
-              <div className="form">
-                <TextField 
-                  className="input p-2 "
-                  onChange={handleBidChange}
-                  value={bid}
-                  id="bid"
-                  name="bid_amount"
-                  variant="standard" 
-                />
-                <br />
-                <Button type="submit"  className="mt-2 p-2" variant="contained" color="primary">مزايدة</Button>
-                <br />
+             
                 <p>الوقت المتبقي لانتهاء المزايدة : {formatTime(remaing)}</p>
-                <br />
-               </div>
-            </form>
+                
           ) : (
                 <div>
                      <p className="section__subtitle text-center">المزاد انتهى بقيمة:</p>
@@ -216,7 +177,7 @@ useEffect(() => {
            )}
 
           <button className=" w-100 car__item-btn car__btn-details">
-          <Link to={`/cars/${name}`}>Details</Link>
+          <Link to={`/aqar/${id}`}>مزايدة/تفاصيل</Link>
           </button>
         </div>
          <p>{currentTime}</p>

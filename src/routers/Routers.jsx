@@ -13,6 +13,8 @@ import AddAuction from"../pages/AddAuction";
 import AqarListing from '../pages/AqarListing';
 import OtherListing from '../pages/OtherListing'
 import AllAuctions from "../pages/AllAuctions";
+import AqarDetails from "../pages/AqarDetails";
+import OtherDetails from "../pages/OtherDetails";
 const Routers = () => {
   return (
     <Routes>
@@ -26,9 +28,11 @@ const Routers = () => {
       <Route path="/cars/:slug" element={<CarDetails />} />
       
       <Route path="/aqar" element={<AqarListing />} />
-      
+      <Route path="/aqar/:slug" element={<AqarDetails />} />
+
       <Route path="/other" element={<OtherListing />} />
-      
+      <Route path="/other/:slug" element={<OtherDetails />} />
+
       <Route path="/all" element={<AllAuctions />} />
       
       <Route path="/addauction" element={<AddAuction />} />

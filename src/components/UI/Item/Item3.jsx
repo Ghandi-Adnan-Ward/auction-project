@@ -217,7 +217,7 @@ useEffect(() => {
            )}
 
           <button className=" w-100 car__item-btn car__btn-details">
-          <Link to={`/cars/${name}`}>Details</Link>
+          <Link to={`/other/${id}`}>مزايدة/تفاصيل</Link>
           </button>
         </div>
          <p>{currentTime}</p>

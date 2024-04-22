@@ -39,6 +39,7 @@
     outline: none;
     background: rgba(124, 138, 151);
     padding: 8px 0px;
+    font-size: 25px;
   }
   
   .car__item-btn a {

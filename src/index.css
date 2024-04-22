@@ -45,7 +45,9 @@ ul {
 .section__title {
   color: #000d6b;
   font-weight: 600;
-  font-size: 2rem;
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 50px;
 }
 .section__title1 {
   color: #000d6b;
@@ -66,10 +68,23 @@ ul {
 
 .section__description {
   color: #7c8a97;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   line-height: 30px;
+  margin: 10px;
 }
-
+.section__description1 {
+  color: #7c8a97;
+  font-size: 1.2rem;
+  line-height: 30px;
+  margin: 10px;
+justify-content: end; 
+}
+.section__description2 {
+  color: #7c8a97;
+  font-size: 1rem;
+  line-height: 30px;
+  margin: 10px;
+ }
 section {
   padding: 50px 0px;
 }

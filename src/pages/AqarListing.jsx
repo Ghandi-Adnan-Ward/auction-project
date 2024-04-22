@@ -9,6 +9,7 @@ import Item4 from "../components/UI/Item/Item4";
 import { Alert } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import Spinner from '../components/UI/Spinner/Spinner';
+import Item2 from "../components/UI/Item/Item2";
 const AqarListing = () => {
   const navigate = useNavigate();
   const [AqarData, setAqarData] = useState([]);
@@ -45,7 +46,7 @@ const AqarListing = () => {
       <Container>
         <Row>
           {AqarData.map((item) => (
-            <Item4
+            <Item2
               item={item}
               key={item.id}
               />

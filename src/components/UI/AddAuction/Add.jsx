@@ -13,32 +13,43 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
 import { Alert } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
+import { MenuItem } from "@material-ui/core";
 const Add = (props) => {
   const [showAlert, setShowAlert] = useState(false);
   const[Loading,setLoading]=useState(false)
   const navigate=useNavigate()
+  const [auctionType, setAuctionType] = useState('');
+
   const [image, setImage] = useState('')
   const changeHandler = (e)=>{
     setImage(e.target.files[0]);
     console.log(e.target.files[0])
 }
    
-  
+const handleAuctionTypeChange = (e) => {
+  setAuctionType(e.target.value);
+}
     const handleSubmit = async (event) => {
       event.preventDefault(); 
       setShowAlert(true)
       setLoading(true)
        const category_id=3;
-       const status="ongoing";
+       const status="pending";
       const formAdd = new FormData();
       formAdd.append('name',event.target.name.value);
       formAdd.append('status',status);
       formAdd.append('category_id',category_id);
       formAdd.append('description',event.target.description.value);
       formAdd.append('minimum_bid',event.target.price.value);
+      formAdd.append('bid',event.target.bid.value);
+
+      formAdd.append('start_time',event.target.start_time.value);
       formAdd.append('end_time',event.target.end_time.value);
       formAdd.append('image',image);
-       
+      formCar.append('type', auctionType);
+      if (auctionType === 'live') {
+        formCar.append('incrementamount', event.target.incrementamount.value);
+      }
     
       const jwt_token=localStorage.getItem('jwt_token');
       const config={
@@ -89,6 +100,34 @@ const Add = (props) => {
                      <img src={logoanything} alt="Logo"    width="40" height="40"  style={{ verticalAlign: '-0.200em'}} className="mb-2" />
                 </Typography>
                 <form onSubmit={handleSubmit}>
+                <Grid container spacing={2}>
+
+                <Grid item xs={12}>
+                    <TextField
+                      select
+                      name="auction_type"
+                      variant="outlined"
+                      fullWidth
+                      label="Auction Type"
+                      value={auctionType}
+                      onChange={handleAuctionTypeChange}
+                    >
+                      <MenuItem value="live">Live</MenuItem>
+                      <MenuItem value="anonymous">Anonymous</MenuItem>
+                      <MenuItem value="regular">Regular</MenuItem>
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                        name="incrementamount"
+                        variant="outlined"
+                        fullWidth
+                        label="مقدار الزيادة"
+                        type="number"
+                        // Conditionally render based on auction type
+                        style={{ display: auctionType === 'live' ? 'block' : 'none' }}
+                      />
+                  </Grid>
                 <Grid item xs={12}>
                       <TextField
                         name="name"
@@ -99,6 +138,8 @@ const Add = (props) => {
                         label="الاسم"
                       />
                     </Grid>
+                    <Grid item xs={12}>
+
                   <TextField
                     variant="outlined"
                     margin="normal"
@@ -109,7 +150,22 @@ const Add = (props) => {
                     multiline
                     rows={4}
                   />
+                  </Grid>
                   <Grid item xs={12}>
+                      <TextField
+                        name="start_time"
+                        variant="outlined"
+                        
+                        fullWidth
+                        label="وقت بداية المزاد"
+                        type="datetime-local"
+                        InputLabelProps={{
+                          shrink:true
+                        }}
+                      />
+                        
+                    </Grid>
+                  <Grid item xs={12} sx={{mt:2}}>
                       <TextField
                         name="end_time"
                         variant="outlined"
@@ -123,6 +179,20 @@ const Add = (props) => {
                       />
                         
                     </Grid>
+                    <Grid item xs={12}>
+
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="bid"
+                    label="bid"
+                    type="number"
+                  />
+                  </Grid>
+                  <Grid item xs={12}>
+
                   <TextField
                     variant="outlined"
                     margin="normal"
@@ -132,6 +202,7 @@ const Add = (props) => {
                     label="السعر"
                     type="number"
                   />
+                  </Grid>
                   <Grid item xs={12} sx={{ mt: 2 }}>
                     <input
                      type="file" 
@@ -139,6 +210,7 @@ const Add = (props) => {
                       accept="image/*" 
                       onChange={changeHandler}
                       multiple={false} />
+                  </Grid>
                   </Grid>
                   <Button
                     type="submit"

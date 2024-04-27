@@ -14,17 +14,22 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "../Spinner/Spinner";
 import { Alert } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
+import { MenuItem } from "@material-ui/core";
 
 const AddAqar = (props) => {
 
   const[showAlert, setShowAlert] = useState(false);
   const[Loading,setLoading]=useState(false)
   const navigate=useNavigate()
+  const [auctionType, setAuctionType] = useState('');
 
   const [image, setImage] = useState('')
   const changeHandler = (e)=>{
     setImage(e.target.files[0]);
     console.log(e.target.files[0])
+}
+const handleAuctionTypeChange = (e) => {
+  setAuctionType(e.target.value);
 }
   const handleSubmit = async (event) => {
     event.preventDefault(); 
@@ -33,7 +38,7 @@ const AddAqar = (props) => {
     setShowAlert(true)
 
     const category_id=2;
-    const status="ongoing";
+    const status="pending";
     const formAqar = new FormData();
     formAqar.append('name',event.target.name.value);
     formAqar.append('status',status);
@@ -48,8 +53,12 @@ const AddAqar = (props) => {
     formAqar.append('num_bedrooms',event.target.bedrooms.value);
     formAqar.append('num_bathrooms',event.target.bathrooms.value);
     formAqar.append('minimum_bid',event.target.price.value);
+    formAqar.append('start_time',event.target.start_time.value);
     formAqar.append('end_time',event.target.end_time.value);
- 
+    formCar.append('type', auctionType);
+    if (auctionType === 'live') {
+      formCar.append('incrementamount', event.target.incrementamount.value);
+    }
     
      const jwt_token=localStorage.getItem('jwt_token');
       const config={
@@ -108,6 +117,33 @@ const AddAqar = (props) => {
               </Typography>
               <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <TextField
+                      select
+                      name="auction_type"
+                      variant="outlined"
+                      fullWidth
+                      label="Auction Type"
+                      value={auctionType}
+                      onChange={handleAuctionTypeChange}
+                    >
+                      <MenuItem value="live">Live</MenuItem>
+                      <MenuItem value="anonymous">Anonymous</MenuItem>
+                      <MenuItem value="regular">Regular</MenuItem>
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={12}>
+
+                  <TextField
+                      name="incrementamount"
+                      variant="outlined"
+                      fullWidth
+                      label="مقدار الزيادة"
+                      type="number"
+                      // Conditionally render based on auction type
+                      style={{ display: auctionType === 'live' ? 'block' : 'none' }}
+                    />
+                  </Grid>
                 <Grid item xs={12}>
                         <TextField
                           name="name"
@@ -201,6 +237,20 @@ const AddAqar = (props) => {
                       type="number"
                     />
                   </Grid>
+                  <Grid item xs={12}>
+                        <TextField
+                          name="start_time"
+                          variant="outlined"
+                          
+                          fullWidth
+                          label="وقت بداية المزاد"
+                          type="datetime-local"
+                          InputLabelProps={{
+                            shrink:true
+                          }}
+                        />
+                          
+                      </Grid>
                   <Grid item xs={12}>
                         <TextField
                           name="end_time"

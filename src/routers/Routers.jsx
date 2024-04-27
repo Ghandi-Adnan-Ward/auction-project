@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import CarListing from "../pages/CarListing";
-import CarDetails from "../pages/CarDetails";
+import CarDetail from "../pages/CarDetail";
 import NotFound from "../pages/NotFound";
 import Contact from '../pages/Contact'
 import Login from "../pages/Login";
@@ -25,7 +25,7 @@ const Routers = () => {
       <Route path="/about" element={<About />} />
       
       <Route path="/cars" element={<CarListing />} />
-      <Route path="/cars/:slug" element={<CarDetails />} />
+      <Route path="/cars/:slug" element={<CarDetail />} />
       
       <Route path="/aqar" element={<AqarListing />} />
       <Route path="/aqar/:slug" element={<AqarDetails />} />

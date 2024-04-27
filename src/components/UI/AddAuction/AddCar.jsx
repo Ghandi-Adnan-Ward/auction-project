@@ -13,15 +13,20 @@ import Spinner from '../Spinner/Spinner';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
+import { MenuItem } from "@material-ui/core";
 
 const AddCar = (props) => {
   const[Loading,setLoading]=useState(false)
   const navigate =useNavigate()
   const [showAlert, setShowAlert] = useState(false);
   const [image, setImage] = useState('')
+  const [auctionType, setAuctionType] = useState('');
   const changeHandler = (e)=>{
     setImage(e.target.files[0]);
     console.log(e.target.files[0])
+}
+const handleAuctionTypeChange = (e) => {
+  setAuctionType(e.target.value);
 }
   // const handle=(e)=>{
   //    image=e.target.files[0]
@@ -32,7 +37,8 @@ const AddCar = (props) => {
         setShowAlert(true)
         const category_id=1;
         // const image='../../../assets/all-images/cars-img/bmw-offer.png'
-        const status="ongoing";
+        const status="pending";
+        
         const formCar = new FormData();
         formCar.append('name',event.target.name.value);
         formCar.append('status',status);
@@ -43,10 +49,16 @@ const AddCar = (props) => {
         formCar.append('registration_year',event.target.registration_Year.value);
         formCar.append('engine_type',event.target.engine_Type.value);
         formCar.append('image',image);
+        formCar.append('start_time',event.target.start_time.value);
         formCar.append('end_time',event.target.end_time.value);
         formCar.append('minimum_bid',event.target.price.value);
         formCar.append('description',event.target.description.value);
-
+        formCar.append('type', auctionType);
+        if (auctionType === 'live') {
+          formCar.append('incrementamount', event.target.incrementamount.value);
+        }
+        
+    
          // const postDataCar = {
         //   name: formCar.get("name"),
         //   category_id:category_id,
@@ -65,23 +77,77 @@ const AddCar = (props) => {
               Authorization:`Bearer ${jwt_token}`
             }
           }
-        try {
+          if(auctionType=='live'){
+            try {
+          
+              axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
+              .then(res=>{
+               setLoading(false)
+               setShowAlert(false)
+               console.log(res.data.auction.id)
+               console.log('Response:', res.data);
+               navigate('/cars')
+              }
+              )
+             }
+           catch (error) {
+   
+              console.error('Error:', error);
+           }
+          }
+          else if(auctionType=='regular'){
+            try {
+
+              axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
+              .then(res=>{
+               setLoading(false)
+               setShowAlert(false)
+               console.log(res.data.auction.id)
+               console.log('Response:', res.data);
+               navigate('/cars')
+              }
+              )
+             }
+           catch (error) {
+   
+              console.error('Error:', error);
+           }
+          }
+          else if(auctionType=='anonymous'){
+            try {
+          
+              axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
+              .then(res=>{
+               setLoading(false)
+               setShowAlert(false)
+               console.log(res.data.auction.id)
+               console.log('Response:', res.data);
+               navigate('/cars')
+              }
+              )
+             }
+           catch (error) {
+   
+              console.error('Error:', error);
+           }
+          }
+        // try {
           
       
-           axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
-           .then(res=>{
-            setLoading(false)
-            setShowAlert(false)
-            console.log(res.data.auction.id)
-            console.log('Response:', res.data);
-            navigate('/cars')
-           }
-           )
-          }
-        catch (error) {
+        //    axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
+        //    .then(res=>{
+        //     setLoading(false)
+        //     setShowAlert(false)
+        //     console.log(res.data.auction.id)
+        //     console.log('Response:', res.data);
+        //     navigate('/cars')
+        //    }
+        //    )
+        //   }
+        // catch (error) {
 
-           console.error('Error:', error);
-        }
+        //    console.error('Error:', error);
+        // }
       };
   return (
     <div>
@@ -119,7 +185,35 @@ const AddCar = (props) => {
                 <form onSubmit={handleSubmit} >
                 
                   <Grid container spacing={2}>
+                    
                   <Grid item xs={12}>
+                    <TextField
+                      select
+                      name="auction_type"
+                      variant="outlined"
+                      fullWidth
+                      label="Auction Type"
+                      value={auctionType}
+                      onChange={handleAuctionTypeChange}
+                    >
+                      <MenuItem value="live">Live</MenuItem>
+                      <MenuItem value="anonymous">Anonymous</MenuItem>
+                      <MenuItem value="regular">Regular</MenuItem>
+                    </TextField>
+                  </Grid>
+                  <Grid item xs={12}>
+
+                  <TextField
+                      name="incrementamount"
+                      variant="outlined"
+                      fullWidth
+                      label="مقدار الزيادة"
+                      type="number"
+                      // Conditionally render based on auction type
+                      style={{ display: auctionType === 'live' ? 'block' : 'none' }}
+                    />
+                  </Grid>
+                   <Grid item xs={12}>
                       <TextField
                         name="name"
                         variant="outlined"
@@ -173,6 +267,20 @@ const AddCar = (props) => {
                         fullWidth
                         label="نوع المحرك"
                       />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <TextField
+                        name="start_time"
+                        variant="outlined"
+                        
+                        fullWidth
+                        label="وقت بدء المزاد"
+                        type="datetime-local"
+                        InputLabelProps={{
+                          shrink:true
+                        }}
+                      />
+                        
                     </Grid>
                     <Grid item xs={12}>
                       <TextField

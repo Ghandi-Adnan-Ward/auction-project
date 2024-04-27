@@ -8,17 +8,17 @@ import { useEffect } from "react";
 import axios from "axios";
  
 const Item3 = (props) => {
-  const {name,minimum_bid ,end_time,image,id ,description,status} = props.item;
+  const {name,minimum_bid ,end_time,image,id ,description,status,bid} = props.item;
   const [currentTime, setCurrentTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
-  const [bid, setBid] = useState(0);
+  //const [bid, setBid] = useState(0);
+  const [currentBid,setcurrentbid]=useState(minimum_bid)
   const [auctionActive, setAuctionActive] = useState(false);
   const [highestBid, setHighestBid] = useState(minimum_bid);
   const [auctionEnded, setAuctionEnded] = useState(false);
   const jwt_token=localStorage.getItem('jwt_token');
   const [WinnerData,setWinnerData]=useState([]);
   const [WinnerhighestBid, WinnersetHighestBid] = useState([]);
-  const[Status,setStatus]=useState(status)
-
+  //const[Status,setStatus]=useState(status)
    const config={
     headers:{
       Authorization:`Bearer ${jwt_token}`
@@ -44,6 +44,7 @@ const Item3 = (props) => {
         console.error(error)
       }
     }
+
     // const handleStatus=()=> {
 
     //   try{
@@ -59,12 +60,12 @@ const Item3 = (props) => {
     //     console.error(error)
     //   }
     // }
+
  useEffect(() => {
     if(status=='closed')
   {
     getWinnerData()
    }
-
  }, [status])
      
    
@@ -86,7 +87,7 @@ const Item3 = (props) => {
         } else if (now.isAfter(end)) {
           setAuctionActive(false);
           setAuctionEnded(true);
-          setStatus('closed')
+         // setStatus('closed')
          }
       }, 1000);
 
@@ -96,10 +97,10 @@ const Item3 = (props) => {
   
   
 
-  const handleBidChange = (e) => {
-    const newBid = parseFloat(e.target.value);
-    setBid(newBid);
-  };
+  // const handleBidChange = (e) => {
+  //   const newBid = parseFloat(e.target.value);
+  //   setBid(newBid);
+  // };
 
   useEffect(() => {
     const intervalid=setInterval(()=>{
@@ -142,29 +143,34 @@ useEffect(() => {
   return `${months} شهر ${remainingDays} يوم ${remainingHours} ساعة ${remainingMinutes} دقيقة ${remainingSeconds} ثانية`;
 };
  
-  
+  const handle=()=>{
+    setcurrentbid(parseFloat(currentBid)+100);
+  }
   const handleBidSubmit = (event) => {
+
     event.preventDefault();
+    setHighestBid(currentBid)
+
     const bbid=new FormData();
-    bbid.append('bid_amount',event.target.bid_amount.value)
+    bbid.append('bid_amount',currentBid)
     try {
      
       axios.post(url,bbid,config )
       .then(res=>{
        console.log(res.data)
-        console.log(config.headers)
+     //console.log(config.headers)
       }
       ) 
       }
       catch (error) {
       console.error('Error:', error);
     }
-    const bid_amount = event.target.bid_amount.value;
-    if ( bid_amount > highestBid  ) {
-      setHighestBid(bid_amount);
-     }
+    // const bid_amount = event.target.bid_amount.value;
+    // if ( bid_amount > highestBid  ) {
+    //   setHighestBid(bid_amount);
+    //  }
     
-    setBid(0)
+    //setBid(0)
   }
   
    
@@ -187,21 +193,23 @@ useEffect(() => {
             <svg   width="35" height="35" viewBox="0 0 24 24"  style={{ verticalAlign: '-0.125em' }}><g transform="translate(24 0) scale(-1 1)"><path fill="currentColor" d="M21 21H3a1 1 0 0 1-1-1v-7.513a1 1 0 0 1 .343-.754L6 8.544V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1M9 19h3v-6.058L8 9.454l-4 3.488V19h3v-4h2zm5 0h6V5H8v2.127c.234 0 .469.082.657.247l5 4.359a1 1 0 0 1 .343.754zm2-8h2v2h-2zm0 4h2v2h-2zm0-8h2v2h-2zm-4 0h2v2h-2z"></path></g></svg>
                {description}
             </span>
-          
+          {currentBid}
+          <br />
+          {highestBid}
           </div>
           {auctionActive && !auctionEnded   ? (
             <form onSubmit={handleBidSubmit }>
               <div className="form">
-                <TextField 
+                {/* <TextField 
                   className="input p-2 "
                   onChange={handleBidChange}
                   value={bid}
                   id="bid"
                   name="bid_amount"
                   variant="standard" 
-                />
+                /> */}
                 <br />
-                <Button type="submit"  className="mt-2 p-2" variant="contained" color="primary">مزايدة</Button>
+                <Button onClick={handle} type="submit"  className="mt-2 p-2" variant="contained" color="primary">مزايدة</Button>
                 <br />
                 <p>الوقت المتبقي لانتهاء المزايدة : {formatTime(remaing)}</p>
                 <br />

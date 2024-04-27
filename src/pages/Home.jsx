@@ -16,6 +16,7 @@ const Home = () => {
   const [otherAuctions, setOtherAuctions] = useState([]);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
         const carResponse = await axios.get('http://localhost:8000/api/v1/user/car-auctions');

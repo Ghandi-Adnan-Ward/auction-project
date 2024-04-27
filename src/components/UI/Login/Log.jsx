@@ -21,7 +21,7 @@ function Login() {
   const[Loading,setLoading]=useState(false)
   const navigate =useNavigate()
   const [showAlert, setShowAlert] = useState(false);
-  const handleSubmit = async (event) => {
+  const handleSubmit =    (event) => {
     event.preventDefault(); 
     setShowAlert(true)
 
@@ -30,9 +30,9 @@ function Login() {
       password:event.target.password.value
     }
     try {
-        axios.post('http://localhost:8000/api/v1/user/login', formData)
-        .then(res=>{
-          setShowAlert(false)
+         axios.post('http://localhost:8000/api/v1/user/login', formData)
+         .then(res=>{
+           setShowAlert(false)
 
             // localStorage.setItem('token',res.data.token)
             // const id=localStorage.getItem('userId')
@@ -43,12 +43,14 @@ function Login() {
             console.log(jwt_token)
              
             navigate('/')
+         }
+         )
             // setTimeout(() => {
             //   const response =   axios.post('http://localhost:8000/api/v1/user/logout', formData,config);
             //   localStorage.clear();
             //    console.log('Response:', response.data);    }, 10000);
-        }          
-        )
+                  
+        
          }
     catch (error) {
        console.error('Error:', error);

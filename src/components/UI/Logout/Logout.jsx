@@ -27,25 +27,27 @@ function Logout() {
   };
    
  
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     setLogout(true);
     setShowAlert(true);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/user/logout', config);
-        setShowAlert(false)
-        navigate('/')
+      axios.post('http://localhost:8000/api/v1/user/logout', config)
+      .then(res=>{
+      setShowAlert(false)
 
         localStorage.clear();
-        console.log('Response:', response.data);
+        console.log('Response:', res);
         console.log('Response:', jwt_token);
-       
+        navigate('/')
+      })
     } 
     catch (error) {
       console.error('Error:', error);
     }
   };
+ 
 
   return (
     <div>

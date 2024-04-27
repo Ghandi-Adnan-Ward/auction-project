@@ -17,104 +17,29 @@ import moment from 'moment';
 
 const AqarDetails = () => {
   const { slug } = useParams();
-  const [aqarData, setaqarData] = useState([]);
-  const [bid, setBid] = useState(0);
-  const [currentBid,setcurrentbid]=useState(aqarData.minimunBid)
-  const [highestBid, setHighestBid] = useState(0);
-  //const [bids, setBids] = useState(0);
-  const [currentTime, setCurrentTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
-   const [loading, setLoading] = useState(false);
+  const [UserDetails, setUserDetails] = useState('');
+  const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlert1, setShowAlert1] = useState(false);
-  const [error, setError] = useState('');
-  const[auctionActive,setAuctionActive]=useState(true)
-  const [auctionEnded, setAuctionEnded] = useState(false);
   const jwt_token=localStorage.getItem('jwt_token');
-  const [WinnerData,setWinnerData]=useState([]);
-  const [WinnerhighestBid, WinnersetHighestBid] = useState([]);
-  //const[Status,setStatus]=useState('ongoing');
-  const [endd,setendd]=useState(aqarData.end_time)
-  const end=moment(moment(endd,'YYYY-MM-DD HH:mm:ss')) 
-   const [remaing, setremaing] = useState(moment(end));
+      
+ 
+  const UserUrl='';
+  const UserAuctions='';
 
-  const t=moment.utc(aqarData.end_time).format("HH:mm:ss")
-
-  const WinnerUrl='http://localhost:8000/api/v1/user/auctions/'+aqarData.id+'/winner';
   useEffect(() => {
     const fetchData = async () => {
         setLoading(true);
-      setShowAlert(true);
+        setShowAlert(true);
 
       try {
-        const response = await axios.get('http://localhost:8000/api/v1/user/specificAuction/'+slug);
-             setaqarData(response.data);
-              //const endd=response.data.end_time
-             const end=moment(moment(response.data.end_time,'YYYY-MM-DD HH:mm:ss'))  
-             if(response.data.status=='closed')
-        {
-          // gethighestBid()
-
-            try{
-                axios.get('http://localhost:8000/api/v1/user/auctions/'+response.data.id+'/winner').then(res =>
-                {
-                  
-                  setWinnerData(res.data.winner.first_name)
-                  console.log(res.data.winner.first_name)
-                 }
-                   
-              )
-            }
-            catch(error){
-              console.error(error)
-            }
-          }
-             
+        const response = await axios.get(UserUrl,config);
+             setUserDetails(response.data);            
              setShowAlert(false);
-             setLoading(false);
-            setendd(response.data.end_time)
-            
-             const intervalId = setInterval(() => {
-        const now = moment();
-        setCurrentTime(now.format('YYYY-MM-DD HH:mm:ss'));
-        
-        
-        if (now.isBetween(currentTime,end)) {
-          setAuctionActive(true);
-          setremaing(end.diff(now,'seconds')); 
-        } else if (now.isAfter(end)) {
-          setAuctionActive(false);
-          setAuctionEnded(true);
-          setremaing(0)
+             setLoading(false);   
         }
-      }, 10);
-     
- 
-      if(auctionActive){
-  const intervalId=setInterval(() => {
-    setCurrentTime(moment().format('YYYY-MM-DD HH:mm:ss'));
-      setremaing(prevTime => {
-        if (prevTime === 0) {
-          clearInterval(intervalId);
-          setAuctionActive(false);
-          setAuctionEnded(true); 
-           return 0;
-        }
-        return prevTime - 1;
-      });
-  }, 1000);
-   const intervalid=setInterval(()=>{
-      setCurrentTime(moment().format('YYYY-MM-DD HH:mm:ss'));
-    })
-    return () => {
-      clearInterval(intervalid)
-      clearInterval(intervalId)
-
-    }
-   
-  }
-       return () => clearInterval(intervalId);
-            
-      } catch (error) {
+             
+       catch (error) {
         setError(error.message);
         setShowAlert(false);
         setShowAlert1(true);
@@ -131,7 +56,7 @@ const AqarDetails = () => {
       Authorization:`Bearer ${jwt_token}`
     }
   }
-     const getWinnerData=()=> {
+     const getUserDetails=()=> {
 
       try{
         axios.get(WinnerUrl).then(res =>
@@ -149,55 +74,12 @@ const AqarDetails = () => {
         console.error(error)
       }
     }
-  useEffect(() => {
-    if(aqarData.status=='closed')
-  {
-    getWinnerData()
-   }
-
- }, [])
-  const url='http://localhost:8000/api/v1/user/auctions/'+aqarData.id+'/bid';
-
    
  
-  const handleBidSubmit = (event) => {
-    event.preventDefault();
-    if(bid>aqarData.currentBid){
-    setcurrentbid(bid)
-    setHighestBid(currentBid)
-    const bbid=new FormData();
-    bbid.append('bid_amount',highestBid)
+   
+  
+    
  
-    try {
-     
-      axios.post(url,bbid,config )
-      .then(res=>{
-        console.log(bid)
-        console.log(highestBid)
-       console.log(res.data)
-       }
-      ) 
-      }
-      catch (error) {
-      console.error('Error:', error);
-    }
-    
-    
-    
-    setBid(0)
-    }
-  }
-
-  const handleBidChange = (e) => {
-    const newBid = parseFloat(e.target.value);
-    if(newBid>aqarData.currentBid){
-      setBid(newBid);
-
-    }
-    //setBids(bids.append(newBid))
-    // const maxBid = Math.max(...bids);
-    // setHighestBid(maxBid);
-  };
 
   
 
@@ -209,15 +91,7 @@ const AqarDetails = () => {
    
  
  
-const formatTime = (totalSeconds) => {
-  const months = Math.floor(totalSeconds / (3600 * 24 * 30)); 
-  const remainingDays = Math.floor((totalSeconds % (3600 * 24 * 30.4)) / (3600 * 24));
-  const remainingHours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
-  const remainingMinutes = Math.floor((totalSeconds % 3600) / 60); 
-  const remainingSeconds = totalSeconds % 60;
 
-  return `${months} شهر ${remainingDays} يوم ${remainingHours} ساعة ${remainingMinutes} دقيقة ${remainingSeconds} ثانية`;
-};
   return (
     <Helmet title={aqarData.name}>
     {loading ? <Spinner /> :
@@ -325,34 +199,8 @@ const formatTime = (totalSeconds) => {
             </span></div>
             </div>
           </Col>
-          {auctionActive && !auctionEnded ?
-          <form onSubmit={handleBidSubmit}>
-          <div className="form m-4">
-            <h1 className="section__title">ادخل قيمة مزادك</h1>
-            <TextField 
-              className="input w-30 p-2 "
-              onChange={handleBidChange}
-              value={bid}
-              id="bid"
-              name="bid_amount"
-              variant="standard" 
-            />
-            <br />
-            <Button type="submit"  className="mt-2 p-2" variant="contained" color="primary">مزايدة</Button>
-               <br />
-                <p>الوقت المتبقي لانتهاء المزايدة : {formatTime(remaing)}</p>
-                <br />
-            </div>
-        </form>:
-          (
-            <div>
-                 <p className="section__subtitle text-center">المزاد انتهى بقيمة:</p>
-                 <p className="section__subtitle1 text-center">{highestBid}</p>
-
-                 <p className="section__title1 text-center">رابح المزاد: {WinnerData} {WinnerhighestBid}</p>
-               </div>
-       )
-        }
+          
+        
          
         </Row>
       </Container>

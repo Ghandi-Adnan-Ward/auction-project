@@ -1,10 +1,9 @@
 import React, {  useEffect, useRef,useState } from "react";
-
+import axios from'axios'
 import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./Header.css";
-import axios from 'axios'
-const navLinksNOtAuth = [
+ const navLinksNOtAuth = [
   {
     path: "/home",
     display: "الرئيسية",
@@ -55,21 +54,33 @@ const navLinksAuth = [
   },
 ];
 const Header = () => {
-  const menuRef = useRef(null);
+  const navigate=useNavigate()
   const jwt_token = localStorage.getItem('jwt_token');
+  // useEffect(() => {
+  //   if(!jwt_token){
+  //     navigate('/')
+  //   }
+  
+     
+  // }, [])
+  
+  const menuRef = useRef(null);
+   
+  
   const[user,setuser]=useState('')  
-  const config={
-    headers:{
-      Authorization:`Bearer ${jwt_token}`
-
-    }
-  }
+ 
   useEffect(() => {
     const getData = async () => {
       // setloading(true);
       // setShowAlert(true);
   
       try {
+        const config={
+          headers:{
+            Authorization:`Bearer ${jwt_token}`
+      
+          }
+        }
         const response = await axios.get('http://localhost:8000/api/v1/user/details',config);
         setuser(response.data);
         console.log(response.data);
@@ -106,7 +117,8 @@ const Header = () => {
                 </span>
               </div>
             </Col>
-              {jwt_token==null?
+              {jwt_token == null ?
+              (
               <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
                 <Link to="/login" className=" d-flex align-items-center gap-1">
@@ -120,12 +132,12 @@ const Header = () => {
                  
                </div>
             </Col>
+              )
             :
+            (
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-              {/* <p className=" d-flex align-items-center gap-1">{user.details.first_name}</p>
-              {user.details.first_name} */}
-               <Link to="/" className=" d-flex align-items-center gap-1">
+                 <Link to="/" className=" d-flex align-items-center gap-1">
                <i className="ri-map-pin-user-fill" style={{fontSize:'20px'}}></i>
                 {user.details?.first_name} {user.details?.last_name} 
                 </Link>
@@ -134,7 +146,8 @@ const Header = () => {
                 </Link>
                </div>
             </Col>
-            }
+            )  
+          }
             
           </Row>
           
@@ -210,7 +223,8 @@ const Header = () => {
           </span>
 
           <div className="navigation" ref={menuRef} onClick={toggleMenu}>
-             {jwt_token==null?
+             { jwt_token==null?
+             (
             <div className="menu">
               {navLinksNOtAuth.map((item, index) => (
                 <NavLink
@@ -224,7 +238,9 @@ const Header = () => {
                 </NavLink>
               ))}
             </div>
+             )
             :
+            (
             <div className="menu">
               {navLinksAuth.map((item, index) => (
                 <NavLink
@@ -238,6 +254,7 @@ const Header = () => {
                 </NavLink>
               ))}
             </div>
+            )
             }
             </div>    
         </div>

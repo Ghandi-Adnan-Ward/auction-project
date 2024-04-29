@@ -14,19 +14,26 @@ import AddRoadIcon from '@mui/icons-material/AddRoad';
 import CropDinIcon from '@mui/icons-material/CropDin'
 import BedroomParentIcon from '@mui/icons-material/BedroomParent'
 import moment from 'moment';
-
-const AqarDetails = () => {
+import EmailIcon from '@mui/icons-material/Email';
+import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
+import CarAuctionItem from "../components/UI/Item/CarAuctionItem";
+const UserDetails = () => {
   const { slug } = useParams();
-  const [UserDetails, setUserDetails] = useState('');
+  const [UserDetails, setUserDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlert1, setShowAlert1] = useState(false);
   const jwt_token=localStorage.getItem('jwt_token');
-      
- 
-  const UserUrl='';
-  const UserAuctions='';
-
+  const [carAuction,setCarAuctions]=useState([])     
+  const config={
+    headers:{
+      Authorization:`Bearer ${jwt_token}`
+    }
+  }
+  const UserUrl='http://localhost:8000/api/v1/user/details';
+  const UserAuctions='http://localhost:8000/api/v1/user/my-auctions';
+  const AqarUserAuctions=''
+  const OtherUserAuctions=''
   useEffect(() => {
     const fetchData = async () => {
         setLoading(true);
@@ -34,7 +41,12 @@ const AqarDetails = () => {
 
       try {
         const response = await axios.get(UserUrl,config);
-             setUserDetails(response.data);            
+        const auctions = await axios.get(UserAuctions,config);
+             setUserDetails(response.data); 
+             setCarAuctions(auctions.data)
+              console.log(auctions.data)
+             console.log(auctions.data[0].name)           
+             console.log(response.data.details.id)           
              setShowAlert(false);
              setLoading(false);   
         }
@@ -45,163 +57,91 @@ const AqarDetails = () => {
         setShowAlert1(true);
         console.error('Error fetching data:', error);
       }
-    };
+    };   
     fetchData()
-
-    
+     
   }, []);
-  const StatusUrl='';
-  const config={
-    headers:{
-      Authorization:`Bearer ${jwt_token}`
-    }
-  }
-     const getUserDetails=()=> {
+  
+    //  const getUserDetails=()=> {
 
-      try{
-        axios.get(WinnerUrl).then(res =>
-          {
+    //   try{
+    //     axios.get(WinnerUrl).then(res =>
+    //       {
             
-            setWinnerData(res.data.winner.first_name)
-            WinnersetHighestBid(res.data.winner.last_name)
-            console.log(res.data.winner)
-            console.log(res.data.winner.first_name)
-           }
+    //         setWinnerData(res.data.winner.first_name)
+    //         WinnersetHighestBid(res.data.winner.last_name)
+    //         console.log(res.data.winner)
+    //         console.log(res.data.winner.first_name)
+    //        }
              
-        )
-      }
-      catch(error){
-        console.error(error)
-      }
-    }
-   
- 
-   
-  
-    
- 
-
-  
-
+    //     )
+    //   }
+    //   catch(error){
+    //     console.error(error)
+    //   }
+    // }
   // Find the selected car based on the slug
   useEffect(() => {
     
     window.scrollTo(0, 0);
-  }, [aqarData]);
-   
- 
- 
+  }, [UserDetails]);
 
   return (
-    <Helmet title={aqarData.name}>
+    <Helmet title={UserDetails.name}>
     {loading ? <Spinner /> :
 
     <section>
       <Container>
         <Row>
-          <Col sm='6' md='6' lg="6">
+          {/* <Col sm='6' md='6' lg="6">
             <img src={`http://localhost:8000/storage/${aqarData.image}`} alt="" className="w-75 h-75" />
-          </Col>
+          </Col> */}
 
-          <Col sm='6' md='6' lg="6">
+          <Col sm='3' md='4' lg="6">
             <div className="car__info">
-              <h2 className="section__title ">{aqarData.name}</h2>
-
-             
-              <span className=" d-flex align-items-center gap-1 section__description">
-                 <h3>
-                    <WbIncandescentIcon htmlColor="#f9a826" fontSize="large"/>
-                  {"الوصف: "}
-                  {aqarData.description}
-                 </h3>
-                 {/* <br />
-                 <h3>
-                    <WbIncandescentIcon htmlColor="#f9a826" fontSize="large"/>
-                  {"السعر الحالي للمزاد: "}
-                  {aqarData.currentBid}
-                 </h3> */}
-                </span>
-
-              <div
-                className=" d-flex align-items-center justify-content-between"
-                style={{ columnGap: "4rem" }}
-              >
-                <span className=" d-flex align-items-center gap-1 section__description">
-                 <h3><PublicIcon htmlColor="#f9a826" fontSize="large"/>
-                  {"البلد: "}
-                  {aqarData.details?.country}
-                 </h3>
-                </span>
-
-                <span className=" d-flex align-items-center gap-1 section__description">
-                  <h3>
-                    <LocationCityIcon htmlColor="#f9a826" fontSize="large"/>
-                  {"المدينة: "}
-                  {aqarData.details?.city}
-                  </h3>
-                </span>
-
-                
-              </div>
-              <div
-                className=" d-flex align-items-center justify-content-center mt-9"
-                style={{ columnGap: "2.8rem" }}
-              ><span className=" d-flex align-items-center gap-1 section__description">
-              <h3>
-              <LocationCityIcon htmlColor="#f9a826" fontSize="large"/>
-               {"المنطقة: "}
-              {aqarData.details?.area}
-              </h3>
-            </span></div>
+              <h2 className="section__title ">
+              <ContactEmergencyIcon fontSize="200px" htmlColor="#f9a826"/> {'اسم الأول:'} {UserDetails.details?.first_name}
+               
+                </h2>
+                 
+                </div>
+                </Col>
+                <Col sm='3' md='4' lg="6">
+            <div className="car__info">
+              <h2 className="section__title ">
+              <ContactEmergencyIcon fontSize="200px" htmlColor="#f9a826"/> {'اسم الثاني:'} {UserDetails.details?.last_name}
+               
+                </h2>
+                </div>
+                </Col>
               
-              <div
-                 style={{ columnGap: "2.8rem" }}
-              >
-                <span className=" d-flex align-items-center gap-1 section__description1">
-                  <h3>
-                    <AddRoadIcon htmlColor="#f9a826" fontSize="large"/>
-                  {"الشارع: "}
-                  {aqarData.details?.street}
-                  </h3>
-                </span>
+        </Row>
+        <Row>
+        <Col sm='3' md='4' lg="12">
+            {/* <div className="car__info">
+              <h2 className="section__title ">
+              <EmailIcon fontSize="200px" htmlColor="#f9a826"/> {'الإيميل:'} {UserDetails.details?.email}
+               
+                </h2>
+                </div> */}
+                <div className="car__info">
+              <h2 className="section__title ">
+              <EmailIcon fontSize="200px" htmlColor="#f9a826"/> {'الإيميل:'} {UserDetails.details?.email}
+               
+                </h2>
+                 
                 </div>
-                <div
-                 style={{ columnGap: "2.8rem" }}
-              >
-                 <span className=" d-block align-items-center gap-1 section__description1">
-                 <h3>
-                 <LocationCityIcon htmlColor="#f9a826" fontSize="large"/>
-                {"الطابق: "}
-                  {aqarData.details?.floor}
-                 </h3>
-                 <h3>
-                    <CropDinIcon htmlColor="#f9a826" fontSize="large"/>
-                  {"المساحة الكلية: "}
-                  {aqarData.details?.total_area}
-                 </h3>
-                 <h3>
-                    <BedroomParentIcon htmlColor="#f9a826" fontSize="large"/>
-                  {"عدد غرف النوم: "}
-                  {aqarData.details?.num_bedrooms}
-                 </h3>
-                </span>
-
-                </div>
-                <div
-               ><span className=" d-flex  gap-1 section__description2">
-              <h3>
-              <i
-                className="ri-timer-flash-line"
-                style={{ color: "#f9a826" }}
-              ></i>{"وقت انتهاء المزاد:"}
-              {aqarData.end_time}
-              </h3>
-            </span></div>
-            </div>
-          </Col>
-          
-        
-         
+                </Col>
+        </Row>
+        <Row>
+        <Col lg="12" className="text-center mb-5">
+                 <h2 className="section__title">  مزاداتي </h2>
+              </Col>
+        {carAuction.map((auction) => (
+                <Col key={auction.id} lg="4" md="4">
+                  <CarAuctionItem auction={auction} />
+                </Col>
+              ))}
         </Row>
       </Container>
     </section>
@@ -217,7 +157,7 @@ const AqarDetails = () => {
      {showAlert1 && (
       <Alert severity="error" className="custom-alert"sx={{display:'flex',alignItems:'center',justifyContent:'center'}}  >
         <div className="d-flex justify-content-center align-items-center">
-             <h4>يتم الآن {error.message} </h4>
+             <h4>يتم الآن  </h4>
              <CheckIcon/>
         </div>
         </Alert>
@@ -227,4 +167,4 @@ const AqarDetails = () => {
  
 };
 
-export default AqarDetails;
+export default UserDetails;

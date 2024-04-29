@@ -12,7 +12,6 @@ import "../styles/About.css";
 const About = () => {
   return (
     <Helmet title="About">
-          <Fade>
 
       <CommonSection title="حول الموقع" />
       <AboutSection aboutClass="aboutPage" />
@@ -30,7 +29,7 @@ const About = () => {
             <OurMembers />
           </Row>
         </Container>
-      </section>    </Fade>
+      </section>
 
     </Helmet>
   );

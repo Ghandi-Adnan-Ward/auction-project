@@ -28,23 +28,23 @@ function CarAuctionItem({ auction }) {
               <div>
                 <div className="d-flex justify-content-between">
                   <span>العلامة التجارية</span> {/* Brand in Arabic */}
-                  <span>{auction.details.brand || "غير متوفر"}</span> {/* N/A in Arabic */}
+                  <span>{auction.details?.brand || "غير متوفر"}</span> {/* N/A in Arabic */}
                 </div>
                 <div className="d-flex justify-content-between">
                   <span>الموديل</span> {/* Model in Arabic */}
-                  <span>{auction.details.model}</span>
+                  <span>{auction.details?.model}</span>
                 </div>
                 <div className="d-flex justify-content-between">
                   <span>سنة الصنع</span> {/* Manufacturing Year in Arabic */}
-                  <span>{auction.details.manufacturing_year}</span>
+                  <span>{auction.details?.manufacturing_year}</span>
                 </div>
                 <div className="d-flex justify-content-between">
                   <span>سنة التسجيل</span> {/* Registration Year in Arabic */}
-                  <span>{auction.details.registration_year}</span>
+                  <span>{auction.details?.registration_year}</span>
                 </div>
                 <div className="d-flex justify-content-between">
                   <span>نوع المحرك</span> {/* Engine Type in Arabic */}
-                  <span>{auction.details.engine_type || "غير متوفر"}</span> {/* N/A in Arabic */}
+                  <span>{auction.details?.engine_type || "غير متوفر"}</span> {/* N/A in Arabic */}
                 </div>
               </div>
               <div className="d-flex justify-content-between total font-weight-bold mt-4">

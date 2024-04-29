@@ -15,13 +15,15 @@ import OtherListing from '../pages/OtherListing'
 import AllAuctions from "../pages/AllAuctions";
 import AqarDetails from "../pages/AqarDetails";
 import OtherDetails from "../pages/OtherDetails";
+import UserDetails from "../pages/UserDetails";
 const Routers = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
       
       <Route path="/home" element={<Home />} />
-      
+      <Route path="/user" element={<UserDetails />} />
+
       <Route path="/about" element={<About />} />
       
       <Route path="/cars" element={<CarListing />} />

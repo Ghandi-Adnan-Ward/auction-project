@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 //import moment from 'moment'
 const CarDetails = (props) => {
-  const {name,minimum_bid ,end_time,details,image,id ,status,description,currentBid} =  props.carData ;
+  const {name,minimum_bid ,end_time,details,image,id ,status,description,current_bid,type,increment_amount} =  props.carData ;
   const auctionActive=props.auctionActive;
   const auctionEnded=props.auctionEnded;
   const currentTime=props.currentTime;
@@ -26,7 +26,7 @@ const CarDetails = (props) => {
   const [showAlert1, setShowAlert1] = useState(false);
   const [error, setError] = useState('');
   const [bid, setBid] = useState(0);
-  const [highestBid, setHighestBid] = useState(minimum_bid);
+   const [highestBid, setHighestBid] = useState(minimum_bid);
   //const[auctionActive,setAuctionActive]=useState(false)
   //const [auctionEnded, setAuctionEnded] = useState(false);
   // const [currentTime, setCurrentTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
@@ -60,8 +60,9 @@ const formatTime = (totalSeconds) => {
 
   
  
-  const url='http://localhost:8000/api/v1/user/auctions/'+id+'/bid';
-
+  const url1='http://localhost:8000/api/v1/user/regular-auctions/'+id+'/bid';
+  const url2='http://localhost:8000/api/v1/user/live-auctions/'+id+'/bid'
+  const url3='http://localhost:8000/api/v1/user/anonymous-auctions/'+id+'/bid'
   
 
   const handleBidSubmit = (event) => {
@@ -69,31 +70,94 @@ const formatTime = (totalSeconds) => {
     setLoading(true)
     setShowAlert(true)
     const bbid=new FormData();
-    bbid.append('bid_amount',event.target.bid_amount.value)
-    try {
-     
-      axios.post(url,bbid,config )
+
+    if(type !='live'){
+    bbid.append('bid_amount',event?.target.bid_amount.value)
+    }
+      try {
+        if(type=='live'){
+
+        axios.post(url2,config)
+       .then(res=>{
+        console.log(jwt_token)
+        console.log(config)
+         setLoading(false)
+         setShowAlert(false)
+        console.log(res.data)
+        navigate('/cars')
+        }
+     ) 
+      }
+      else if(type=='regular'){
+        axios.post(url1,bbid,config )
       .then(res=>{
         setLoading(false)
         setShowAlert(false)
        console.log(res.data)
-        console.log(config.headers)
-      }
-      ) 
-      }
-      catch (error) {
-        setError(error.message)
-      setShowAlert1(true)
-      setShowAlert(false)
-     }
-    const bid_amount = event.target.bid_amount.value;
-    if ( bid_amount > highestBid  ) {
-      setHighestBid(bid_amount);
-      // sendBidToBackend(bid_amount)
-     
-    setBid(0)
+       }
+    ) 
+        
+   }
+   else if(type=='anonymous'){
+    axios.post(url3,bbid,config )
+  .then(res=>{
+    setLoading(false)
+    setShowAlert(false)
+   console.log(res.data)
+   }
+) 
+  
+ 
+}
     }
-  }
+       catch (error) {
+         setError(error.message)
+       setShowAlert1(true)
+       setShowAlert(false)
+      }
+      }
+    
+    
+    // try {
+    //    axios.post(url,bbid,config )
+    //   .then(res=>{
+    //     setLoading(false)
+    //     setShowAlert(false)
+    //    console.log(res.data)
+    //     console.log(config.headers)
+    //   }
+    // ) 
+    //  } 
+    //   catch (error) {
+    //     setError(error.message)
+    //   setShowAlert1(true)
+    //   setShowAlert(false)
+    //  }
+    //  }
+    //   axios.post(url,bbid,config )
+    //   .then(res=>{
+    //     setLoading(false)
+    //     setShowAlert(false)
+    //    console.log(res.data)
+    //     console.log(config.headers)
+    //   }
+    //   ) 
+    //   }
+    //   catch (error) {
+    //     setError(error.message)
+    //   setShowAlert1(true)
+    //   setShowAlert(false)
+    //  }
+  //   const bid_amount = event?.target.bid_amount?.value;
+
+  //  if(type !='live'){
+    
+  //   if ( bid_amount > highestBid  ) {
+  //     setHighestBid(bid_amount);
+     
+   
+  
+  
 
   const handleBidChange = (e) => {
     const newBid = parseFloat(e.target.value);
@@ -213,6 +277,7 @@ const formatTime = (totalSeconds) => {
           <form onSubmit={handleBidSubmit}>
           <div className="form m-4">
             <h1 className="section__title">ادخل قيمة مزادك</h1>
+            {type!='live' ? 
             <TextField 
               className="input w-30 p-2 "
               onChange={handleBidChange}
@@ -221,6 +286,9 @@ const formatTime = (totalSeconds) => {
               name="bid_amount"
               variant="standard" 
             />
+            :
+            <h1>اضغط لأضافة {increment_amount} إلى {current_bid} </h1>
+          }
             <br />
             <Button type="submit"  className="mt-2 p-2" variant="contained" color="primary">مزايدة</Button>
                <br />
@@ -264,6 +332,6 @@ const formatTime = (totalSeconds) => {
     )}
   </Helmet>
   );
-};
+}
 
 export default CarDetails;

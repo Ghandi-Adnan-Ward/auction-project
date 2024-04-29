@@ -2,6 +2,8 @@ import React, {  useEffect, useRef,useState } from "react";
 import axios from'axios'
 import { Container, Row, Col } from "reactstrap";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import PersonPinIcon from '@mui/icons-material/PersonPin';
+import LogoutIcon from '@mui/icons-material/Logout';
 import "./Header.css";
  const navLinksNOtAuth = [
   {
@@ -137,12 +139,14 @@ const Header = () => {
             (
             <Col lg="6" md="6" sm="6">
               <div className="header__top__right d-flex align-items-center justify-content-end gap-3">
-                 <Link to="/" className=" d-flex align-items-center gap-1">
-               <i className="ri-map-pin-user-fill" style={{fontSize:'20px'}}></i>
+                 <Link to="/user" className=" d-flex align-items-center gap-1">
+               {/* <i className="ri-map-pin-user-fill" style={{fontSize:'20px'}}></i> */}
+               <PersonPinIcon fontSize="medium" />
                 {user.details?.first_name} {user.details?.last_name} 
                 </Link>
                  <Link to="/logout" className=" d-flex align-items-center gap-1">
-                  <i className="ri-login-circle-line"></i> تسجيل خروج
+                  <LogoutIcon fontSize="medium" />
+                   تسجيل خروج
                 </Link>
                </div>
             </Col>

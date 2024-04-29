@@ -8,6 +8,17 @@ const AboutSection = ({ aboutClass }) => {
   return (
     <section className="about__section">
       <Container>
+        {/* <Row>
+        <iframe 
+        src="https://lumalabs.ai/embed/337ba289-f7d2-432b-b1dc-4bb19f6d2b2e?mode=sparkles&background=%23ffffff&color=%23000000&showTitle=true&loadBg=true&logoPosition=bottom-left&infoPosition=bottom-right&cinematicVideo=undefined&showMenu=false" 
+        width="374"
+         height="500"
+          // frameBorder='0' 
+          title="luma embed"
+           style={{border: "none"}}
+            
+           ></iframe>
+        </Row> */}
         <Row>
           <Col lg="6" md="6">
             <div className="about__section-content">

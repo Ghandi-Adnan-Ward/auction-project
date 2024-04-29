@@ -54,8 +54,8 @@ const handleAuctionTypeChange = (e) => {
         formCar.append('minimum_bid',event.target.price.value);
         formCar.append('description',event.target.description.value);
         formCar.append('type', auctionType);
-        if (auctionType === 'live') {
-          formCar.append('incrementamount', event.target.incrementamount.value);
+        if (auctionType == 'live') {
+          formCar.append('increment_amount', event.target.incrementamount.value);
         }
         
     

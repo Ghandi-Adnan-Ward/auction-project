@@ -23,7 +23,7 @@ const EditCarDetails = (props) => {
   const [newname,setname]=useState(name)
   const [carbrand,setbrand]=useState(details?.brand)
   const [carmodel,setmodel]=useState(details?.model)
-  const [carincrement,setincrement]=useState(increment_amount)
+  const [carincrement,setincrement]=useState(increment_amount || 0)
   const [manufacturing_Year,setmanufacturing_Year]=useState(details?.manufacturing_year)
   const [registration_Year,setregistration_Year]=useState(details?.registration_year)
   const [engine_Type,setengine_Type]=useState(details?.engine_type)
@@ -97,14 +97,11 @@ const EditCarDetails = (props) => {
                 
                   <Grid container spacing={2} justifyContent="center">
                     
-                  <Grid item xs={12}>
+                  <Grid innerRef={useRef(null)} ref={useRef(null)} item xs={12}>
                     <TextField
                       select
                       name="type"
-                      itemRef={transitionRef}
-                      innerRef={transitionRef}
-                      ref={transitionRef}
-                      inputRef={transitionRef}
+                        ref={useRef(null)}
                       value={auctionType}
                       variant="outlined"
                       fullWidth
@@ -112,27 +109,26 @@ const EditCarDetails = (props) => {
                       label="Auction Type"
                       onChange={handleAuctionTypeChange}
                      >
-                      <MenuItem value='live'>Live</MenuItem>
-                      <MenuItem value='anonymous'>Anonymous</MenuItem>
-                      <MenuItem value='regular'>Regular</MenuItem>
+                      <MenuItem innerRef={useRef(null)} value='live'>Live</MenuItem>
+                      <MenuItem innerRef={useRef(null)} value='anonymous'>Anonymous</MenuItem>
+                      <MenuItem innerRef={useRef(null)} value='regular'>Regular</MenuItem>
                     </TextField>
                   </Grid>
-                  {auctionType=='live'?
+                  {auctionType =='live' && (
                   <Grid item xs={12}>
-
-                  <TextField
+                   <TextField
                       name="incrementamount"
+                      ref={transitionRef}
+
                       value={carincrement}
                       onChange={(e)=>{setincrement(e.target.value)}}
                       variant="outlined"
                       fullWidth
                       label="مقدار الزيادة"
                       type="number"
-                      style={{ display: type === 'live' ? 'block' : 'none' }}
-                    />
+                     />
                   </Grid> 
-                :
-                <br/>}
+          )}
                    <Grid item xs={12}>
                       <TextField
                       value={newname}

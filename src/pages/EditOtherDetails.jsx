@@ -12,7 +12,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const EditOtherDetails = (props) => {
-  const transitionRef = createRef(null);
+  const transitionRef = useRef(null);
+  const reff=createRef(null)
   const {name,minimum_bid ,end_time,start_time,image,id ,category_id,status,description,type,increment_amount} =  props.otherData ;
   const navigate=useNavigate()
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ const EditOtherDetails = (props) => {
   const [error, setError] = useState('');
   const [auctionType, setAuctionType] = useState(type);
   const [newname,setname]=useState(name)
-  const [carincrement,setincrement]=useState(increment_amount)
+  const [carincrement,setincrement]=useState(increment_amount || null)
   const [startTime,setstartTime]=useState(start_time)
   const [endTime,setendTime]=useState(end_time)
   const [minimumbid,setminimum]=useState(minimum_bid)
@@ -85,35 +86,31 @@ const EditOtherDetails = (props) => {
          
             <form onSubmit={handleSubmit} >
                 
-                  <Grid container spacing={2} justifyContent="center">
+                  <Grid  container spacing={2} justifyContent="center">
                     
-                  <Grid item xs={12}>
+                  <Grid   item xs={12}>
                     <TextField
                       select
                       name="type"
-                      ref={transitionRef}
-
-                      itemRef={transitionRef}
-                      innerRef={transitionRef}
-                      inputRef={transitionRef}
-                      value={auctionType}
                       variant="outlined"
                       fullWidth
-                      
+                      innerRef={useRef(null)}
+                      value={auctionType}
                       label="Auction Type"
                       onChange={handleAuctionTypeChange}
                      >
                       <MenuItem value='live'>Live</MenuItem>
-                      <MenuItem value='anonymous'>Anonymous</MenuItem>
-                      <MenuItem value='regular'>Regular</MenuItem>
+                      <MenuItem  value='anonymous'>Anonymous</MenuItem>
+                      <MenuItem  value='regular'>Regular</MenuItem>
                     </TextField>
                   </Grid>
-                  {auctionType=='live'?
+                  {auctionType==='live'?
                   <Grid item xs={12}>
 
                   <TextField
                       name="incrementamount"
                       value={carincrement}
+                      inputRef={transitionRef}
                       onChange={(e)=>{setincrement(e.target.value)}}
                       variant="outlined"
                       fullWidth
@@ -192,13 +189,13 @@ const EditOtherDetails = (props) => {
                        />
                     </Grid>
                     <Grid item xs={12}>
-                      <Input
+                      {/* <Input
                         type="file"
                         name="image"
                         accept="image/*"
                         onChange={(e)=>{setimage(e.target.files[0])}}
                         multiple={false}
-                       />
+                       /> */}
                     </Grid>
                   <Button
                     type="submit"

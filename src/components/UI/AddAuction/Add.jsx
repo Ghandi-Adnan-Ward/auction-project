@@ -123,7 +123,7 @@ const handleAuctionTypeChange = (e) => {
                         fullWidth
                         label="مقدار الزيادة"
                         type="number"
-                        required
+                        
                         // Conditionally render based on auction type
                         style={{ display: auctionType === 'live' ? 'block' : 'none' }}
                       />

@@ -29,7 +29,7 @@ const AuctionOtherUser = ({auction}) => {
                 <span>${auction.minimum_bid}</span>
               </div>
           <button onClick={()=>{navigate(`/user/editother/${auction.id}`)}} className=" w-100 car__item-btn car__btn-details">
-          مزايدة/تفاصيل
+            تعديل       
           </button>
         </div>
       </Col>

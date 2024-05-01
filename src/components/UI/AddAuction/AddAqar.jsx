@@ -22,7 +22,12 @@ const AddAqar = (props) => {
   const[Loading,setLoading]=useState(false)
   const navigate=useNavigate()
   const [auctionType, setAuctionType] = useState('');
-
+  const jwt_token=localStorage.getItem('jwt_token');
+  const config={
+    headers:{
+      Authorization:`Bearer ${jwt_token}`
+    }
+  }
   const [image, setImage] = useState('')
   const changeHandler = (e)=>{
     setImage(e.target.files[0]);
@@ -55,33 +60,46 @@ const handleAuctionTypeChange = (e) => {
     formAqar.append('minimum_bid',event.target.price.value);
     formAqar.append('start_time',event.target.start_time.value);
     formAqar.append('end_time',event.target.end_time.value);
-    formCar.append('type', auctionType);
+    formAqar.append('type', auctionType);
     if (auctionType === 'live') {
-      formCar.append('incrementamount', event.target.incrementamount.value);
+      formAqar.append('increment_amount', event.target.incrementamount.value);
     }
     
-     const jwt_token=localStorage.getItem('jwt_token');
-      const config={
-        headers:{
-          Authorization:`Bearer ${jwt_token}`
-        }
-      }
+    
 
-    try {
-       axios.post('http://localhost:8000/api/v1/user/real-estate-auctions', formAqar,config)
-       .then(res=>{
-        setLoading(true)
-        setShowAlert(true)
-        console.log('Response:', res.data);
-        navigate('/aqar')
-       }
-       )
-      }
-
-    catch (error) {
-
-       console.error('Error:', error);
-    }
+     try{
+      if(auctionType=='live'){
+        axios.post('http://localhost:8000/api/v1/user/real-estate-auctions', formAqar,config)
+        .then(res=>{
+         setLoading(false)
+         setShowAlert(false)
+         console.log(res.data.auction.id)
+         console.log('Response:', res.data);
+         navigate('/aqar')
+      })}
+      else if(auctionType=='regular'){
+        axios.post('http://localhost:8000/api/v1/user/real-estate-auctions', formAqar,config)
+        .then(res=>{
+         setLoading(false)
+         setShowAlert(false)
+         console.log(res.data.auction.id)
+         console.log('Response:', res.data);
+         navigate('/aqar')
+      })}
+      else if(auctionType=='anonymous'){
+        axios.post('http://localhost:8000/api/v1/user/real-estate-auctions', formAqar,config)
+        .then(res=>{
+         setLoading(false)
+         setShowAlert(false)
+         console.log(res.data.auction.id)
+         console.log('Response:', res.data);
+         navigate('/aqar')
+      })}
+     }
+     catch(error) {
+   
+      console.error('Error:', error);
+   }
   };
 
   return (
@@ -123,6 +141,7 @@ const handleAuctionTypeChange = (e) => {
                       name="auction_type"
                       variant="outlined"
                       fullWidth
+                      required
                       label="Auction Type"
                       value={auctionType}
                       onChange={handleAuctionTypeChange}
@@ -138,6 +157,7 @@ const handleAuctionTypeChange = (e) => {
                       name="incrementamount"
                       variant="outlined"
                       fullWidth
+                      required
                       label="مقدار الزيادة"
                       type="number"
                       // Conditionally render based on auction type
@@ -241,7 +261,7 @@ const handleAuctionTypeChange = (e) => {
                         <TextField
                           name="start_time"
                           variant="outlined"
-                          
+                          required
                           fullWidth
                           label="وقت بداية المزاد"
                           type="datetime-local"
@@ -281,6 +301,7 @@ const handleAuctionTypeChange = (e) => {
                       type="file"
                       name="image"
                       accept="image/*"
+                      required
                       onChange={changeHandler}
                       multiple={false}
                     />

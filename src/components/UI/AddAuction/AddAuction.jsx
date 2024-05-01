@@ -16,13 +16,15 @@ const navigate=useNavigate()
   };
 
   return (
-    <Container>
+    <div className="m-2 p-2">
+      <Container>
       
       <AddCar  expanded={expanded === "panel1"} handle={handleAccordionChange("panel1")} />
       <AddAqar expanded={expanded === "panel2"} handle={handleAccordionChange("panel2")} />
       <Add expanded={expanded === "panel3"} handle={handleAccordionChange("panel3")}/> 
               
     </Container>
+    </div>
     );
 }
 export default AddAuction;

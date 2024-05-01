@@ -1,7 +1,7 @@
 // Item.js
 import React, { useState } from "react";
 import { Col } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 import { Button, TextField } from "@material-ui/core";
 import { useEffect } from "react";
@@ -11,6 +11,7 @@ const Item3 = (props) => {
   const {name,minimum_bid ,end_time,image,id ,description,status,bid} = props.item;
   const [currentTime, setCurrentTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
   //const [bid, setBid] = useState(0);
+  const navigate=useNavigate()
   const [currentBid,setcurrentbid]=useState(minimum_bid)
   const [auctionActive, setAuctionActive] = useState(false);
   const [highestBid, setHighestBid] = useState(minimum_bid);
@@ -183,50 +184,33 @@ useEffect(() => {
         </div>
          <div className="car__item-content mt-4">
           <h4 className="section__title text-center">{name}</h4>
-          {!auctionActive ?(<>
-            <h6 className="rent__price text-center mt-">
-            ${highestBid}.00 <span></span>
-          </h6></>):(<><h6 className="rent__price text-center mt-"></h6></>)}
-
+          
           <div className="car__item-info d-flex align-items-center justify-content-between mt-3 mb-4">
             <span className=" d-flex align-items-center gap-1">
             <svg   width="35" height="35" viewBox="0 0 24 24"  style={{ verticalAlign: '-0.125em' }}><g transform="translate(24 0) scale(-1 1)"><path fill="currentColor" d="M21 21H3a1 1 0 0 1-1-1v-7.513a1 1 0 0 1 .343-.754L6 8.544V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1M9 19h3v-6.058L8 9.454l-4 3.488V19h3v-4h2zm5 0h6V5H8v2.127c.234 0 .469.082.657.247l5 4.359a1 1 0 0 1 .343.754zm2-8h2v2h-2zm0 4h2v2h-2zm0-8h2v2h-2zm-4 0h2v2h-2z"></path></g></svg>
                {description}
             </span>
-          {currentBid}
-          <br />
-          {highestBid}
-          </div>
+           <br />
+           </div>
           {auctionActive && !auctionEnded   ? (
-            <form onSubmit={handleBidSubmit }>
-              <div className="form">
-                {/* <TextField 
-                  className="input p-2 "
-                  onChange={handleBidChange}
-                  value={bid}
-                  id="bid"
-                  name="bid_amount"
-                  variant="standard" 
-                /> */}
-                <br />
-                <Button onClick={handle} type="submit"  className="mt-2 p-2" variant="contained" color="primary">مزايدة</Button>
+            <div>
                 <br />
                 <p>الوقت المتبقي لانتهاء المزايدة : {formatTime(remaing)}</p>
                 <br />
                </div>
-            </form>
-          ) : (
+           ) : (
                 <div>
-                     <p className="section__subtitle text-center">المزاد انتهى بقيمة:</p>
-                     <p className="section__subtitle1 text-center">{highestBid}</p>
+                     <p className="section__subtitle text-center">المزاد انتهى</p>
+                     {/* <p className="section__subtitle1 text-center">{highestBid}</p> */}
 
                      <p className="section__title1 text-center">رابح المزاد: {WinnerData} {WinnerhighestBid}</p>
                    </div>
            )}
 
-          <button className=" w-100 car__item-btn car__btn-details">
-          <Link to={`/other/${id}`}>مزايدة/تفاصيل</Link>
+          <button onClick={()=>{navigate('/other/'+id)}} className=" w-100 car__item-btn car__btn-details mb-2">
+           مزايدة/تفاصيل
           </button>
+              
         </div>
          <p>{currentTime}</p>
         </div>

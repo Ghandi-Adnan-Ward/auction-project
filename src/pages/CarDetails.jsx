@@ -42,11 +42,6 @@ const CarDetails = (props) => {
       Authorization:`Bearer ${jwt_token}`
     }
   }
-//   useEffect(() => {
-
-    
-// }, [])
-
 
 const formatTime = (totalSeconds) => {
   const months = Math.floor(totalSeconds / (3600 * 24 * 30)); 
@@ -54,7 +49,6 @@ const formatTime = (totalSeconds) => {
   const remainingHours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
   const remainingMinutes = Math.floor((totalSeconds % 3600) / 60); 
   const remainingSeconds = totalSeconds % 60;
-
   return `${months} شهر ${remainingDays} يوم ${remainingHours} ساعة ${remainingMinutes} دقيقة ${remainingSeconds} ثانية`;
 };
 
@@ -77,7 +71,7 @@ const formatTime = (totalSeconds) => {
       try {
         if(type=='live'){
 
-        axios.post(url2,config)
+        axios.post(url2,current_bid,config)
        .then(res=>{
         console.log(jwt_token)
         console.log(config)
@@ -115,58 +109,15 @@ const formatTime = (totalSeconds) => {
        setShowAlert1(true)
        setShowAlert(false)
       }
+      setBid(0)
       }
     
-    
-    // try {
-    //    axios.post(url,bbid,config )
-    //   .then(res=>{
-    //     setLoading(false)
-    //     setShowAlert(false)
-    //    console.log(res.data)
-    //     console.log(config.headers)
-    //   }
-    // ) 
-    //  } 
-    //   catch (error) {
-    //     setError(error.message)
-    //   setShowAlert1(true)
-    //   setShowAlert(false)
-    //  }
-    //  }
-    //   axios.post(url,bbid,config )
-    //   .then(res=>{
-    //     setLoading(false)
-    //     setShowAlert(false)
-    //    console.log(res.data)
-    //     console.log(config.headers)
-    //   }
-    //   ) 
-    //   }
-    //   catch (error) {
-    //     setError(error.message)
-    //   setShowAlert1(true)
-    //   setShowAlert(false)
-    //  }
-  //   const bid_amount = event?.target.bid_amount?.value;
-
-  //  if(type !='live'){
-    
-  //   if ( bid_amount > highestBid  ) {
-  //     setHighestBid(bid_amount);
-     
-   
-  
-  
-
   const handleBidChange = (e) => {
     const newBid = parseFloat(e.target.value);
      setBid(newBid);
    };
 
-  
 
-  // Find the selected car based on the slug
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -191,13 +142,24 @@ const formatTime = (totalSeconds) => {
                     <WbIncandescentIcon fontSize="large" htmlColor="#f9a826" />
                         {"الوصف: "}{description}
                   </h3>
-                  {highestBid}
-                </span>
-                <h6 className="rent__price text-center mt-">
+                 </span>
+               {type != 'anonymous'
+               ?
+               <div>
+                 <h6 className="  text-center mt-" style={{fontSize:'25px',color:'#7c8a97'}} >
               <PaidIcon />{'السعر الابتدائي:'}
               <br/>
-            ${minimum_bid} <span></span>
+            ${minimum_bid}  
           </h6>
+          <h6 className=" text-center mt-"style={{fontSize:'25px'}}>
+              <PaidIcon />{'السعر الحالي:'}
+              <br/>
+            ${current_bid}  
+          </h6>
+               </div>
+              :
+              <br/>
+              }
                 <div
                   className=" d-flex align-items-center justify-content-between"
                   style={{ columnGap: "4rem" }}

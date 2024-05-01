@@ -41,14 +41,13 @@ const handleAuctionTypeChange = (e) => {
       formAdd.append('category_id',category_id);
       formAdd.append('description',event.target.description.value);
       formAdd.append('minimum_bid',event.target.price.value);
-      formAdd.append('bid',event.target.bid.value);
-
+ 
       formAdd.append('start_time',event.target.start_time.value);
       formAdd.append('end_time',event.target.end_time.value);
       formAdd.append('image',image);
-      formCar.append('type', auctionType);
+      formAdd.append('type', auctionType);
       if (auctionType === 'live') {
-        formCar.append('incrementamount', event.target.incrementamount.value);
+        formAdd.append('increment_amount', event.target.incrementamount.value);
       }
     
       const jwt_token=localStorage.getItem('jwt_token');
@@ -62,8 +61,7 @@ const handleAuctionTypeChange = (e) => {
          .then(res=>{
           setShowAlert(false)
           setLoading(false)
-          console.log('Response:', res.data);
-          navigate('/other')
+           navigate('/other')
          }
          )
         }
@@ -108,6 +106,7 @@ const handleAuctionTypeChange = (e) => {
                       name="auction_type"
                       variant="outlined"
                       fullWidth
+                      required
                       label="Auction Type"
                       value={auctionType}
                       onChange={handleAuctionTypeChange}
@@ -124,6 +123,7 @@ const handleAuctionTypeChange = (e) => {
                         fullWidth
                         label="مقدار الزيادة"
                         type="number"
+                        required
                         // Conditionally render based on auction type
                         style={{ display: auctionType === 'live' ? 'block' : 'none' }}
                       />
@@ -155,7 +155,7 @@ const handleAuctionTypeChange = (e) => {
                       <TextField
                         name="start_time"
                         variant="outlined"
-                        
+                        required
                         fullWidth
                         label="وقت بداية المزاد"
                         type="datetime-local"
@@ -179,18 +179,7 @@ const handleAuctionTypeChange = (e) => {
                       />
                         
                     </Grid>
-                    <Grid item xs={12}>
-
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="bid"
-                    label="bid"
-                    type="number"
-                  />
-                  </Grid>
+                    
                   <Grid item xs={12}>
 
                   <TextField
@@ -207,6 +196,7 @@ const handleAuctionTypeChange = (e) => {
                     <input
                      type="file" 
                      name="image"
+                     required
                       accept="image/*" 
                       onChange={changeHandler}
                       multiple={false} />

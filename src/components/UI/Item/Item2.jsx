@@ -1,7 +1,7 @@
 // Item.js
 import React, { useState } from "react";
 import { Col } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from 'moment';
 import { Button, TextField } from "@material-ui/core";
 import { useEffect } from "react";
@@ -18,7 +18,7 @@ const Item2 = (props) => {
   const [WinnerData,setWinnerData]=useState([]);
   const [WinnerhighestBid, WinnersetHighestBid] = useState([]);
   const[Status,setStatus]=useState(status)
-
+  const navigate=useNavigate()
    const config={
     headers:{
       Authorization:`Bearer ${jwt_token}`
@@ -176,8 +176,8 @@ useEffect(() => {
                    </div>
            )}
 
-          <button className=" w-100 car__item-btn car__btn-details">
-          <Link to={`/aqar/${id}`}>مزايدة/تفاصيل</Link>
+          <button onClick={()=>{navigate('/other/'+id)}} className=" w-100 car__item-btn car__btn-details">
+          مزايدة/تفاصيل
           </button>
         </div>
          <p>{currentTime}</p>

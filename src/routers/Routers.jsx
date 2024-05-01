@@ -14,15 +14,22 @@ import AqarListing from '../pages/AqarListing';
 import OtherListing from '../pages/OtherListing'
 import AllAuctions from "../pages/AllAuctions";
 import AqarDetails from "../pages/AqarDetails";
-import OtherDetails from "../pages/OtherDetails";
 import UserDetails from "../pages/UserDetails";
+import OtherDetail from "../pages/OtherDetail";
+import EditCarDetail from "../pages/EditCarDetail";
+import EditOtherDetail from "../pages/EditOtherDetail";
+import EditAqarDetail from "../pages/EditAqarDetail";
 const Routers = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
       
       <Route path="/home" element={<Home />} />
+      
       <Route path="/user" element={<UserDetails />} />
+      <Route path="/user/editcar/:slug" element={<EditCarDetail />} />
+      <Route path="/user/editaqar/:slug" element={<EditAqarDetail />} />
+      <Route path="/user/editother/:slug" element={<EditOtherDetail />} />
 
       <Route path="/about" element={<About />} />
       
@@ -33,7 +40,7 @@ const Routers = () => {
       <Route path="/aqar/:slug" element={<AqarDetails />} />
 
       <Route path="/other" element={<OtherListing />} />
-      <Route path="/other/:slug" element={<OtherDetails />} />
+      <Route path="/other/:slug" element={<OtherDetail />} />
 
       <Route path="/all" element={<AllAuctions />} />
       

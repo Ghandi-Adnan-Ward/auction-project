@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Fade } from "reactstrap";
-import Sliders from "../components/UI/Sliders/Sliders";
+import Helmet from "../components/Helmet/Helmet";
 import AboutSection from "../components/UI/AboutSection/AboutSection";
 import CarAuctionItem from "../components/UI/Item/CarAuctionItem";
 import RealEstateAuctionItem from "../components/UI/Item/RealEstateAuctionItem";
@@ -36,7 +36,7 @@ const Home = () => {
   }, []);
 
   return (
-    <Fade>
+    <Helmet title="Home">
       <div className="home-page">
         <AboutSection />
         <section>
@@ -88,7 +88,7 @@ const Home = () => {
           <Advertising />
         </section>
       </div>
-    </Fade>
+    </Helmet>
   );
 };
 

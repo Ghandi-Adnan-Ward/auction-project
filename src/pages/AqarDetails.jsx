@@ -125,8 +125,7 @@ const AqarDetails = () => {
 
     
   }, []);
-  const StatusUrl='';
-  const config={
+   const config={
     headers:{
       Authorization:`Bearer ${jwt_token}`
     }
@@ -162,21 +161,44 @@ const AqarDetails = () => {
  
   const handleBidSubmit = (event) => {
     event.preventDefault();
-    if(bid>aqarData.currentBid){
-    setcurrentbid(bid)
-    setHighestBid(currentBid)
+    // if(bid>aqarData.currentBid){
+    // setcurrentbid(bid)
+    // setHighestBid(currentBid)
     const bbid=new FormData();
-    bbid.append('bid_amount',highestBid)
- 
+    if(aqarData.type !='live'){
+      bbid.append('bid_amount',event?.target.bid_amount.value)
+      } 
     try {
-     
-      axios.post(url,bbid,config )
+      if(aqarData.type=='live'){
+        axios.post('http://localhost:8000/api/v1/user/live-auctions/'+aqarData.id+'/bid',currentBid,config )
       .then(res=>{
-        console.log(bid)
-        console.log(highestBid)
+        setLoading(false)
+        setShowAlert(false)
        console.log(res.data)
+       navigate('/aqar')
        }
       ) 
+      }
+      if(aqarData.type=='regular'){
+        axios.post('http://localhost:8000/api/v1/user/regular-auctions/'+aqarData.id+'/bid',bbid,config )
+      .then(res=>{
+        setLoading(false)
+        setShowAlert(false)
+       console.log(res.data)
+       navigate('/aqar')
+       }
+      ) 
+      }
+      else if(aqarData.type=='anontmous'){
+        axios.post('http://localhost:8000/api/v1/user/anonymous-auctions/'+aqarData.id+'/bid',bbid,config )
+      .then(res=>{
+        setLoading(false)
+        setShowAlert(false)
+       console.log(res.data)
+       navigate('/aqar')
+       }
+      ) 
+      }
       }
       catch (error) {
       console.error('Error:', error);
@@ -185,7 +207,7 @@ const AqarDetails = () => {
     
     
     setBid(0)
-    }
+    
   }
 
   const handleBidChange = (e) => {
@@ -329,6 +351,7 @@ const formatTime = (totalSeconds) => {
           <form onSubmit={handleBidSubmit}>
           <div className="form m-4">
             <h1 className="section__title">ادخل قيمة مزادك</h1>
+            {aqarData.type !='live'?
             <TextField 
               className="input w-30 p-2 "
               onChange={handleBidChange}
@@ -337,6 +360,10 @@ const formatTime = (totalSeconds) => {
               name="bid_amount"
               variant="standard" 
             />
+            :
+            <h1>اضغط لأضافة {aqarData.increment_amount} إلى {aqarData.current_bid} </h1>
+
+          }
             <br />
             <Button type="submit"  className="mt-2 p-2" variant="contained" color="primary">مزايدة</Button>
                <br />

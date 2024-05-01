@@ -40,6 +40,7 @@
     background: rgba(124, 138, 151);
     padding: 8px 0px;
     font-size: 25px;
+    color:#fff
   }
   
   .car__item-btn a {
@@ -94,7 +95,40 @@
       font-size: 0.9rem;
     }
   }
-  
+  .disabled {
+    cursor: not-allowed;
+   
+  }
+  .pa:hover{
+    position: absolute;
+    overflow: scroll;
+    display:flex;
+    color:red
+  }
+  .button-wrapper {
+    position: relative;
+  }
+  .above-cursor-text {
+    position: absolute;
+    top: -20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: red;
+    color: #fff;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .ended-message {
+    position: absolute;
+    top: 30px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(50%);
+    background-color: white;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
   @media only screen and (max-width: 768px) {
     .car__item h4 {
       font-size: 1rem;
@@ -115,5 +149,10 @@
     .car__item-btn {
       font-size: 0.8rem;
     }
+    .disabled{
+      cursor: not-allowed;
+      
+    }
+    
   }
   

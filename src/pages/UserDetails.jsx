@@ -17,6 +17,9 @@ import moment from 'moment';
 import EmailIcon from '@mui/icons-material/Email';
 import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 import CarAuctionItem from "../components/UI/Item/CarAuctionItem";
+import AuctionCarUser from "../components/UI/Item/AuctionCarUser";
+import AuctionAqarUser from "../components/UI/Item/AuctionAqarUser";
+import AuctionOtherUser from "../components/UI/Item/AuctionOtherUser";
 const UserDetails = () => {
   const { slug } = useParams();
   const [UserDetails, setUserDetails] = useState([]);
@@ -44,7 +47,7 @@ const UserDetails = () => {
         const auctions = await axios.get(UserAuctions,config);
              setUserDetails(response.data); 
              setCarAuctions(auctions.data)
-              console.log(auctions.data)
+              console.log(auctions.data[0])
              console.log(auctions.data[0].name)           
              console.log(response.data.details.id)           
              setShowAlert(false);
@@ -87,7 +90,7 @@ const UserDetails = () => {
   }, [UserDetails]);
 
   return (
-    <Helmet title={UserDetails.name}>
+    <Helmet title={UserDetails.details?.first_name}>
     {loading ? <Spinner /> :
 
     <section>
@@ -137,12 +140,22 @@ const UserDetails = () => {
         <Col lg="12" className="text-center mb-5">
                  <h2 className="section__title">  مزاداتي </h2>
               </Col>
-        {carAuction.map((auction) => (
-                <Col key={auction.id} lg="4" md="4">
-                  <CarAuctionItem auction={auction} />
-                </Col>
-              ))}
-        </Row>
+
+        {carAuction.map((auction) => {
+            if(auction.category_id ===1){
+               return <AuctionCarUser key={auction.id} auction={auction} />
+            }
+            else if(auction.category_id ===2){
+              return <AuctionAqarUser key={auction.id} auction={auction} />
+            }
+            else if(auction.category_id ===3){
+              return <AuctionOtherUser key={auction.id} auction={auction} />
+            }
+        }
+          
+
+                   )}
+          </Row>
       </Container>
     </section>
     }

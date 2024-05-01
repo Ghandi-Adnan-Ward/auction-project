@@ -28,15 +28,11 @@ const AddCar = (props) => {
 const handleAuctionTypeChange = (e) => {
   setAuctionType(e.target.value);
 }
-  // const handle=(e)=>{
-  //    image=e.target.files[0]
-  // }
      const handleSubmit = async (event) => {
         event.preventDefault(); 
         setLoading(true)
         setShowAlert(true)
         const category_id=1;
-        // const image='../../../assets/all-images/cars-img/bmw-offer.png'
         const status="pending";
         
         const formCar = new FormData();
@@ -58,19 +54,6 @@ const handleAuctionTypeChange = (e) => {
           formCar.append('increment_amount', event.target.incrementamount.value);
         }
         
-    
-         // const postDataCar = {
-        //   name: formCar.get("name"),
-        //   category_id:category_id,
-        //   status:status,
-        //   brand: formCar.get("brand"),
-        //   model: formCar.get("model"),
-        //   manufacturing_year: formCar.get("manufacturing_Year"),
-        //   registration_year: formCar.get("registration_Year"),
-        //   engine_type: formCar.get("engine_Type"),
-        //   end_time: formCar.get("end_time"),
-        //   price: formCar.get("price"),
-        //  };
          const jwt_token=localStorage.getItem('jwt_token');
           const config={
             headers:{
@@ -79,7 +62,6 @@ const handleAuctionTypeChange = (e) => {
           }
           if(auctionType=='live'){
             try {
-          
               axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
               .then(res=>{
                setLoading(false)
@@ -91,13 +73,11 @@ const handleAuctionTypeChange = (e) => {
               )
              }
            catch (error) {
-   
               console.error('Error:', error);
            }
           }
           else if(auctionType=='regular'){
             try {
-
               axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
               .then(res=>{
                setLoading(false)
@@ -109,7 +89,6 @@ const handleAuctionTypeChange = (e) => {
               )
              }
            catch (error) {
-   
               console.error('Error:', error);
            }
           }
@@ -131,23 +110,6 @@ const handleAuctionTypeChange = (e) => {
               console.error('Error:', error);
            }
           }
-        // try {
-          
-      
-        //    axios.post('http://localhost:8000/api/v1/user/car-auctions', formCar,config)
-        //    .then(res=>{
-        //     setLoading(false)
-        //     setShowAlert(false)
-        //     console.log(res.data.auction.id)
-        //     console.log('Response:', res.data);
-        //     navigate('/cars')
-        //    }
-        //    )
-        //   }
-        // catch (error) {
-
-        //    console.error('Error:', error);
-        // }
       };
   return (
     <div>
@@ -195,24 +157,28 @@ const handleAuctionTypeChange = (e) => {
                       label="Auction Type"
                       value={auctionType}
                       onChange={handleAuctionTypeChange}
+                      required
                     >
                       <MenuItem value="live">Live</MenuItem>
                       <MenuItem value="anonymous">Anonymous</MenuItem>
                       <MenuItem value="regular">Regular</MenuItem>
                     </TextField>
                   </Grid>
-                  <Grid item xs={12}>
 
-                  <TextField
-                      name="incrementamount"
-                      variant="outlined"
-                      fullWidth
-                      label="مقدار الزيادة"
-                      type="number"
-                      // Conditionally render based on auction type
-                      style={{ display: auctionType === 'live' ? 'block' : 'none' }}
-                    />
-                  </Grid>
+                  {auctionType=='live' &&
+                      <Grid item xs={12}>
+                              <TextField
+                              name="incrementamount"
+                              required
+                              variant="outlined"
+                              fullWidth
+                              label="مقدار الزيادة"
+                              type="number"
+                              // Conditionally render based on auction type
+                              style={{ display: auctionType === 'live' ? 'block' : 'none' }}
+                            />
+                        </Grid>
+                }
                    <Grid item xs={12}>
                       <TextField
                         name="name"
@@ -272,7 +238,7 @@ const handleAuctionTypeChange = (e) => {
                       <TextField
                         name="start_time"
                         variant="outlined"
-                        
+                        required
                         fullWidth
                         label="وقت بدء المزاد"
                         type="datetime-local"
@@ -312,6 +278,7 @@ const handleAuctionTypeChange = (e) => {
                         variant="outlined"
                         fullWidth
                         multiline
+                        required
                         rows={4}
                         label="الوصف"
                       />
@@ -327,6 +294,7 @@ const handleAuctionTypeChange = (e) => {
                         // }}
                         onChange={changeHandler}
                         multiple={false}
+                        required
                       />
                     </Grid>
                   </Grid>

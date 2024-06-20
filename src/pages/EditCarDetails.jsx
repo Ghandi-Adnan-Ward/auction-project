@@ -58,10 +58,7 @@ const EditCarDetails = (props) => {
     Edit.append('minimum_bid',event.target.price.value);
     Edit.append('description',event.target.description.value);
     Edit.append('type', auctionType);
-    if (auctionType == 'live') {
-      Edit.append('increment_amount', event.target.incrementamount.value);
-    }
-     
+    
      try {
       axios.post(url,Edit,config)
       .then(res=>{
@@ -96,39 +93,8 @@ const EditCarDetails = (props) => {
             <form onSubmit={handleSubmit} >
                 
                   <Grid container spacing={2} justifyContent="center">
-                    
-                  <Grid innerRef={useRef(null)} ref={useRef(null)} item xs={12}>
-                    <TextField
-                      select
-                      name="type"
-                        ref={useRef(null)}
-                      value={auctionType}
-                      variant="outlined"
-                      fullWidth
-                      
-                      label="Auction Type"
-                      onChange={handleAuctionTypeChange}
-                     >
-                      <MenuItem innerRef={useRef(null)} value='live'>Live</MenuItem>
-                      <MenuItem innerRef={useRef(null)} value='anonymous'>Anonymous</MenuItem>
-                      <MenuItem innerRef={useRef(null)} value='regular'>Regular</MenuItem>
-                    </TextField>
-                  </Grid>
-                  {auctionType =='live' && (
-                  <Grid item xs={12}>
-                   <TextField
-                      name="incrementamount"
-                      ref={transitionRef}
+                  <h2 className="section__title p-2" style={{borderBottom:'5px solid #ec9302'}}>التعديل على المزاد</h2>
 
-                      value={carincrement}
-                      onChange={(e)=>{setincrement(e.target.value)}}
-                      variant="outlined"
-                      fullWidth
-                      label="مقدار الزيادة"
-                      type="number"
-                     />
-                  </Grid> 
-          )}
                    <Grid item xs={12}>
                       <TextField
                       value={newname}

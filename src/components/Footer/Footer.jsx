@@ -1,9 +1,8 @@
 import React from "react";
-
 import { Container, Row, Col, ListGroup, ListGroupItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./Footer.css";
-
+import { Zoom } from "react-awesome-reveal";
 const quickLinks = [
   {
     path: "/about",
@@ -14,8 +13,12 @@ const quickLinks = [
     display: "السيارات",
   },
   {
-    path: "/laptop",
-    display: "لابتوبات",
+    path: "/aqar",
+    display: "عقارات",
+  },
+  {
+    path: "/other",
+    display: "أخرى",
   },
 
   {
@@ -32,6 +35,7 @@ const Footer = () => {
       <Container>
         <Row>
         <Col lg="5" md="4" sm="6">
+            <Zoom>
             <div className="logo footer__logo ">
               <h1>
                 <Link to="/home" className=" d-flex align-items-center gap-2">
@@ -46,14 +50,16 @@ const Footer = () => {
               </h1>
             </div>
             <p className="footer__logo-content">
-              أهلا بك في خدمة المزايدة (سيارات,لابتوبات)
+              أهلا بك في خدمة المزايدة (سيارات,عقارات,أخرى)
               <br />
               <br />
              معنا يمكنك الحصول على أفضل الميزات والخيارات 
             </p>
+            </Zoom>
           </Col>
 
           <Col lg="3" md="4" sm="6">
+            <Zoom>
             <div className="mb-4">
               <h5 className="footer__link-title">روابط وصول</h5>
               <ListGroup>
@@ -64,39 +70,31 @@ const Footer = () => {
                 ))}
               </ListGroup>
             </div>
+            </Zoom>
           </Col>
 
           <Col lg="4" md="4" sm="6">
             <div className="mb-4">
-              <h5 className="footer__link-title mb-4">العنوان</h5>
+            <Zoom>
+            <h5 className="footer__link-title mb-4">العنوان</h5>
               <p className="office__info">سوريا,حمص</p>
               <p className="office__info">رقم الهاتف: +963930547778</p>
 
               <p className="office__info">الإيميل: ghandi.ward@gmail.com</p>
 
               <p className="office__info">أوقات الدوام: 8am - 8pm</p>
+            </Zoom>
             </div>
           </Col>
 
-          {/* <Col lg="3" md="4" sm="12">
-            <div className="mb-4">
-              <h5 className="footer__link-title">ر</h5>
-              <p className="section__description">Subscribe our newsletter</p>
-              <div className="newsletter">
-                <input type="email" placeholder="Email" />
-                <span>
-                  <i class="ri-send-plane-line"></i>
-                </span>
-              </div>
-            </div>
-          </Col> */}
-
           <Col lg="12">
             <div className="footer__bottom">
-              <p className="section__description d-flex align-items-center justify-content-center gap-1 pt-4">
+                <Zoom>
+                <p className="section__description d-flex align-items-center justify-content-center gap-1 pt-4">
                 <i className="ri-copyright-line"></i>Copyright {year}, Developed by
                 our team. All rights reserved.
               </p>
+                </Zoom>
             </div>
           </Col>
         </Row>

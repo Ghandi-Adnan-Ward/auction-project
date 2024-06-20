@@ -5,11 +5,12 @@ import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection/CommonSection";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import Item4 from "../components/UI/Item/Item4";
 import { Alert } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import Spinner from '../components/UI/Spinner/Spinner';
 import Item2 from "../components/UI/Item/Item2";
+import { Zoom } from "react-awesome-reveal";
+
 const AqarListing = () => {
   const navigate = useNavigate();
   const [AqarData, setAqarData] = useState([]);
@@ -17,6 +18,7 @@ const AqarListing = () => {
   const[showAlert, setShowAlert] = useState(false);
   const[showAlert1, setShowAlert1] = useState(false);
   const[error,setError]=useState('error')
+  
   useEffect(() => {
     const getData = async () => {
       setloading(true);
@@ -41,7 +43,10 @@ const AqarListing = () => {
 
   return (
        <Helmet title="Aqars">
-      <CommonSection title="العقارات" />
+        <Zoom>
+        <CommonSection title="العقارات" />
+
+        </Zoom>
       {loading ? <Spinner /> :
       <Container>
         <Row>

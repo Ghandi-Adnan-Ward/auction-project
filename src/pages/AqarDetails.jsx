@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button, TextField } from "@material-ui/core";
 import CheckIcon from '@mui/icons-material/Check';
@@ -14,9 +14,11 @@ import AddRoadIcon from '@mui/icons-material/AddRoad';
 import CropDinIcon from '@mui/icons-material/CropDin'
 import BedroomParentIcon from '@mui/icons-material/BedroomParent'
 import moment from 'moment';
+import { Zoom } from "react-awesome-reveal";
 
 const AqarDetails = () => {
   const { slug } = useParams();
+  const navigate=useNavigate()
   const [aqarData, setaqarData] = useState([]);
   const [bid, setBid] = useState(0);
   const [currentBid,setcurrentbid]=useState(aqarData.minimunBid)
@@ -161,6 +163,8 @@ const AqarDetails = () => {
  
   const handleBidSubmit = (event) => {
     event.preventDefault();
+    setLoading(true);
+    setShowAlert(true)
     // if(bid>aqarData.currentBid){
     // setcurrentbid(bid)
     // setHighestBid(currentBid)
@@ -172,10 +176,12 @@ const AqarDetails = () => {
       if(aqarData.type=='live'){
         axios.post('http://localhost:8000/api/v1/user/live-auctions/'+aqarData.id+'/bid',currentBid,config )
       .then(res=>{
+
         setLoading(false)
         setShowAlert(false)
        console.log(res.data)
        navigate('/aqar')
+
        }
       ) 
       }
@@ -188,6 +194,14 @@ const AqarDetails = () => {
        navigate('/aqar')
        }
       ) 
+      .catch(error=>{
+        setError(error.message)
+        setShowAlert1(true)
+        setShowAlert(false)
+        setTimeout(() => {
+          navigate('/other')
+        }, 7000);
+      })
       }
       else if(aqarData.type=='anontmous'){
         axios.post('http://localhost:8000/api/v1/user/anonymous-auctions/'+aqarData.id+'/bid',bbid,config )
@@ -202,6 +216,7 @@ const AqarDetails = () => {
       }
       catch (error) {
       console.error('Error:', error);
+
     }
     
     
@@ -248,10 +263,14 @@ const formatTime = (totalSeconds) => {
       <Container>
         <Row>
           <Col sm='6' md='6' lg="6">
-            <img src={`http://localhost:8000/storage/${aqarData.image}`} alt="" className="w-75 h-75" />
+            <Zoom>
+            <img src={`http://localhost:8000/storage/${aqarData.image}`} alt="aqar" className="w-75 h-25" />
+
+            </Zoom>
           </Col>
 
           <Col sm='6' md='6' lg="6">
+            <Zoom>
             <div className="car__info">
               <h2 className="section__title ">{aqarData.name}</h2>
 
@@ -346,7 +365,9 @@ const formatTime = (totalSeconds) => {
               </h3>
             </span></div>
             </div>
+            </Zoom>
           </Col>
+          <Zoom>
           {auctionActive && !auctionEnded ?
           <form onSubmit={handleBidSubmit}>
           <div className="form m-4">
@@ -381,6 +402,7 @@ const formatTime = (totalSeconds) => {
        )
         }
          
+          </Zoom>
         </Row>
       </Container>
     </section>

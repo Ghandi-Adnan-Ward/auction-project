@@ -44,7 +44,7 @@ const AllAuctions = () => {
 
   return (
     <Helmet title="Others">
-      <CommonSection title="أخرى" />
+      <CommonSection title="الكل" />
       {loading ? <Spinner /> :
       <Container>
         <Row>

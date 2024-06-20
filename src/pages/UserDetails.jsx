@@ -3,20 +3,12 @@ import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Button, TextField } from "@material-ui/core";
 import CheckIcon from '@mui/icons-material/Check';
 import Spinner from '../components/UI/Spinner/Spinner';
 import { Alert } from "@mui/material";
-import WbIncandescentIcon from '@mui/icons-material/WbIncandescent';
-import PublicIcon from '@mui/icons-material/Public';
-import LocationCityIcon from '@mui/icons-material/LocationCity';
-import AddRoadIcon from '@mui/icons-material/AddRoad';
-import CropDinIcon from '@mui/icons-material/CropDin'
-import BedroomParentIcon from '@mui/icons-material/BedroomParent'
-import moment from 'moment';
+import Divider from '@mui/material/Divider';
 import EmailIcon from '@mui/icons-material/Email';
 import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
-import CarAuctionItem from "../components/UI/Item/CarAuctionItem";
 import AuctionCarUser from "../components/UI/Item/AuctionCarUser";
 import AuctionAqarUser from "../components/UI/Item/AuctionAqarUser";
 import AuctionOtherUser from "../components/UI/Item/AuctionOtherUser";
@@ -47,9 +39,6 @@ const UserDetails = () => {
         const auctions = await axios.get(UserAuctions,config);
              setUserDetails(response.data); 
              setCarAuctions(auctions.data)
-              console.log(auctions.data[0])
-             console.log(auctions.data[0].name)           
-             console.log(response.data.details.id)           
              setShowAlert(false);
              setLoading(false);   
         }
@@ -90,7 +79,7 @@ const UserDetails = () => {
   }, [UserDetails]);
 
   return (
-    <Helmet title={UserDetails.details?.first_name}>
+    <Helmet title={"User-"+UserDetails.details?.first_name}>
     {loading ? <Spinner /> :
 
     <section>
@@ -136,6 +125,9 @@ const UserDetails = () => {
                 </div>
                 </Col>
         </Row>
+        <Divider style={{color:'#f9a826'}}  />
+
+
         <Row>
         <Col lg="12" className="text-center mb-5">
                  <h2 className="section__title">  مزاداتي </h2>

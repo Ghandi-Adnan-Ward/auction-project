@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
-//import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Button, TextField } from "@material-ui/core";
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
@@ -11,29 +10,23 @@ import { Alert } from "@mui/material";
 import WbIncandescentIcon from '@mui/icons-material/WbIncandescent';
 import PaidIcon from '@mui/icons-material/Paid';
 import { useNavigate } from "react-router-dom";
+import { Zoom } from "react-awesome-reveal";
 
-//import moment from 'moment'
 const CarDetails = (props) => {
   const {name,minimum_bid ,end_time,details,image,id ,status,description,current_bid,type,increment_amount} =  props.carData ;
   const auctionActive=props.auctionActive;
   const auctionEnded=props.auctionEnded;
   const currentTime=props.currentTime;
   const remaing=props.remaing;
- const WinnerData=props.WinnerData
- const navigate=useNavigate()
+  const WinnerData=props.WinnerData
+  const navigate=useNavigate()
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlert1, setShowAlert1] = useState(false);
   const [error, setError] = useState('');
   const [bid, setBid] = useState(0);
-   const [highestBid, setHighestBid] = useState(minimum_bid);
-  //const[auctionActive,setAuctionActive]=useState(false)
-  //const [auctionEnded, setAuctionEnded] = useState(false);
-  // const [currentTime, setCurrentTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
-  //  const t=moment.utc(end_time).format("HH:mm:ss")
-  // const endT=moment(end_time).format('YYYY-MM-DD HH:mm:ss');
-  // const end=moment(moment(endT,'YYYY-MM-DD HH:mm:ss'))
-  // const [remaing, setremaing] = useState(moment(end));
+  const [highestBid, setHighestBid] = useState(minimum_bid);
+  
   const jwt_token=localStorage.getItem('jwt_token');
   
  
@@ -90,7 +83,14 @@ const formatTime = (totalSeconds) => {
        console.log(res.data)
        }
     ) 
-        
+    .catch(error=>{
+      setError(error.message)
+      setShowAlert1(true)
+      setShowAlert(false)
+      setTimeout(() => {
+        navigate('/cars')
+      }, 7000);
+    })
    }
    else if(type=='anonymous'){
     axios.post(url3,bbid,config )
@@ -99,9 +99,7 @@ const formatTime = (totalSeconds) => {
     setShowAlert(false)
    console.log(res.data)
    }
-) 
-  
- 
+)  
 }
     }
        catch (error) {
@@ -130,11 +128,14 @@ const formatTime = (totalSeconds) => {
         <Container>
           <Row>
             <Col sm='6' md='6' lg="6">
-              <img src={`http://localhost:8000/storage/${image}`} alt="" className="w-75 h-75" />
+              <Zoom>
+                 <img src={`http://localhost:8000/storage/${image}`} alt="car" className="w-75 h-75" />
+              </Zoom>
             </Col>
 
             <Col sm='6' md='6' lg="6">
-              <div className="car__info">
+             <Zoom>
+               <div className="car__info">
                 <h2 className="section__title ">{name}</h2>
                 <span className=" d-flex align-items-center gap-1 section__description">
                
@@ -234,8 +235,10 @@ const formatTime = (totalSeconds) => {
                 </h3>
               </span></div>
               </div>
+             </Zoom>
             </Col>
-            {auctionActive && !auctionEnded?
+           <Zoom>
+           {auctionActive && !auctionEnded?
           <form onSubmit={handleBidSubmit}>
           <div className="form m-4">
             <h1 className="section__title">ادخل قيمة مزادك</h1>
@@ -271,6 +274,7 @@ const formatTime = (totalSeconds) => {
        )
         }
          
+           </Zoom>
         
           </Row>
         </Container>

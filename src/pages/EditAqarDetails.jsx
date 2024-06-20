@@ -62,9 +62,7 @@ const EditAqarDetails = (props) => {
     Edit.append('minimum_bid',event.target.price.value);
     Edit.append('description',event.target.description.value);
     Edit.append('type', auctionType);
-    if (auctionType == 'live') {
-      Edit.append('increment_amount', event.target.incrementamount.value);
-    }
+   
      
      try {
       axios.post(url,Edit,config)
@@ -98,44 +96,10 @@ const EditAqarDetails = (props) => {
          
             <form onSubmit={handleSubmit} >
                 
-                <Grid container xs={6} lg={12} spacing={2} >
-                    
-                  <Grid item xs={12}>
-                    <TextField
-                      select
-                      name="type"
-                      itemRef={transitionRef}
-                      innerRef={transitionRef}
-                      ref={transitionRef}
-                      inputRef={transitionRef}
-                      value={auctionType}
-                      variant="outlined"
-                      fullWidth
-                      
-                      label="Auction Type"
-                      onChange={handleAuctionTypeChange}
-                     >
-                      <MenuItem value='live'>Live</MenuItem>
-                      <MenuItem value='anonymous'>Anonymous</MenuItem>
-                      <MenuItem value='regular'>Regular</MenuItem>
-                    </TextField>
-                  </Grid>
-                  {auctionType=='live'?
-                  <Grid item xs={12}>
+                <Grid container  spacing={2} justifyContent="center">
+                <h2 className="section__title p-2" style={{borderBottom:'5px solid #ec9302'}}>التعديل على المزاد</h2>
 
-                  <TextField
-                      name="incrementamount"
-                      value={aqarincrement}
-                      onChange={(e)=>{setaqarincrement(e.target.value)}}
-                      variant="outlined"
-                      fullWidth
-                      label="مقدار الزيادة"
-                      type="number"
-                      style={{ display: type === 'live' ? 'block' : 'none' }}
-                    />
-                  </Grid> 
-                :
-                <br/>}
+                 
                    <Grid item xs={12}>
                       <TextField
                       value={newname}

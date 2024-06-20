@@ -9,6 +9,8 @@ import Item1 from "../components/UI/Item/Item1";
 import { Alert } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import Spinner from '../components/UI/Spinner/Spinner';
+import { Zoom } from "react-awesome-reveal";
+
 const CarListing = () => {
   const navigate = useNavigate();
   const[carData, setCarData] = useState([]);
@@ -37,14 +39,19 @@ const CarListing = () => {
   
     fetchData();
   }, []);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
        <Helmet title="Cars">
-      <CommonSection title="السيارات" />
+        <Zoom>
+        <CommonSection title="السيارات" />
+
+        </Zoom>
       {loading ? <Spinner /> :
       <Container>
 
-        <Row>
+       <Row>
           {carData.map((item) => (
             <Item1
               item={item}

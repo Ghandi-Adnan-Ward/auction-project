@@ -10,6 +10,7 @@
  import Spinner from '../components/UI/Spinner/Spinner';
  import CarDetails from "./CarDetails";
  import moment from "moment";
+import { Zoom } from "react-awesome-reveal";
  const CarDetail = () => {
     const { slug } = useParams();
     const[auctionActive,setAuctionActive]=useState(false)
@@ -97,7 +98,7 @@
       clearInterval(intervalId)
 
     }
-   
+
   }
        return () => clearInterval(intervalId);
             
@@ -109,8 +110,6 @@
       }
     };
     fetchData()
-
-    
   }, []);
  
  
@@ -133,39 +132,27 @@
   }
    
   useEffect(() => {
-    
-    
  }, [slug,CarData,CarData.status])
-//   useEffect(() => {
-    
-//   }, [slug,CarData])
-  
-  // useEffect(() => {
-    
-  
-  // }, [auctionActive,auctionEnded,setCurrentTime,currentTime ])
-  // useEffect(() => {
-   
-  // }, [currentTime])
    return (
         <Helmet title="Cars">
-       <CommonSection title="السيارات" />
-       {loading ? <Spinner /> :
-       <Container>
-         <Row>
-                  <CarDetails
-                 carData={CarData}
-                 key={CarData.id}
-                 auctionActive={auctionActive}
-                 auctionEnded={auctionEnded}
-                 remaing={remaing}
-                 currentTime={currentTime}
-                 WinnerData={WinnerData}
-             />
-             
-                     
-         </Row>
-       </Container>
+          <Zoom>
+              <CommonSection title="السيارات" />
+          </Zoom>
+       {loading ?
+        <Spinner /> :
+          <Container>
+            <Row>
+                    <CarDetails
+                    carData={CarData}
+                    key={CarData.id}
+                    auctionActive={auctionActive}
+                    auctionEnded={auctionEnded}
+                    remaing={remaing}
+                    currentTime={currentTime}
+                    WinnerData={WinnerData}
+                    />                    
+            </Row>
+          </Container>
        }
        {showAlert && (
        <Alert severity="success" className="custom-alert"sx={{display:'flex',alignItems:'center',justifyContent:'center'}}  >

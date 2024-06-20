@@ -3,6 +3,7 @@ import { Container, Row, Col } from "reactstrap";
 import "./AboutSection.css";
 import aboutImg from "../../../assets/all-images/cars-img/bmw.jpg";
 import aboutImg2 from "../../../assets/all-images/slider-img/lap.webp";
+import { Zoom } from "react-awesome-reveal";
 
 const AboutSection = ({ aboutClass }) => {
   return (
@@ -19,7 +20,8 @@ const AboutSection = ({ aboutClass }) => {
             
            ></iframe>
         </Row> */}
-        <Row>
+      <Zoom>
+      <Row>
           <Col lg="6" md="6">
             <div className="about__section-content">
               <h4 className="section__subtitle">مرحبًا بك في خدمتنا للمزادات</h4>
@@ -48,12 +50,14 @@ const AboutSection = ({ aboutClass }) => {
             </div>
           </Col>
         </Row>
+      </Zoom>
       </Container>
 
       &nbsp;
 
       <Container>
-        <Row>
+       <Zoom>
+       <Row>
           <Col lg="6" md="6">
             <div className="about__img">
               <img src={aboutImg2} alt="عقار" className="w-100" />
@@ -81,12 +85,14 @@ const AboutSection = ({ aboutClass }) => {
             </div>
           </Col>
         </Row>
+       </Zoom>
       </Container>
 
       &nbsp;
 
       <Container>
-        <Row>
+     <Zoom>
+     <Row>
           <Col lg="12" md="12">
             <div className="about__section-content">
               <h4 className="section__subtitle">استكشاف المزادات الأخرى</h4>
@@ -103,6 +109,7 @@ const AboutSection = ({ aboutClass }) => {
             </div>
           </Col>
         </Row>
+     </Zoom>
       </Container>
     </section>
   );

@@ -9,7 +9,7 @@ import ava01 from '../../../assets/all-images/ava-1.jpg'
 const OUR__MEMBERS = [
   {
     name: "غاندي ورد",
-    experience: "5 years of experience",
+    experience: "5 سنوات من الخبرة",
     fbUrl: "https://www.facebook.com/ghandi.adnan.ward?mibextid=ZbWKwL",
     instUrl: "#",
     twitUrl: "#",
@@ -76,7 +76,7 @@ const OurMembers = () => {
             </div>
 
             <h6 className="text-center mb-0 mt-3">{item.name}</h6>
-            <p className="section__description text-center">
+            <p className=" text-center">
               {item.experience}
             </p>
           </div>

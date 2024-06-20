@@ -1,21 +1,13 @@
 import React, { useEffect, useState,useRef, createRef } from "react";
 import { Container, Row, Col } from "reactstrap";
- //import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Accordion, AccordionSummary, Button, Grid, Input, TextField, Typography } from "@material-ui/core";
 import CheckIcon from '@mui/icons-material/Check';
-import Spinner from '../components/UI/Spinner/Spinner';
 import { Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { MenuItem ,Select} from "@material-ui/core";
-import CssBaseline from "@mui/material/CssBaseline";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 
 const EditOtherDetails = (props) => {
-  const transitionRef = useRef(null);
-  const reff=createRef(null)
   const {name,minimum_bid ,end_time,start_time,image,id ,category_id,status,description,type,increment_amount} =  props.otherData ;
-  const navigate=useNavigate()
   const [loading, setLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlert1, setShowAlert1] = useState(false);
@@ -49,9 +41,7 @@ const EditOtherDetails = (props) => {
     Edit.append('minimum_bid',event.target.price.value);
     Edit.append('description',event.target.description.value);
     Edit.append('type', auctionType);
-    if (auctionType == 'live') {
-      Edit.append('increment_amount', event.target.incrementamount.value);
-    }
+   
      
      try {
       axios.post(url,Edit,config)
@@ -88,39 +78,8 @@ const EditOtherDetails = (props) => {
                 
                   <Grid  container spacing={2} justifyContent="center">
                     
-                  <Grid   item xs={12}>
-                    <TextField
-                      select
-                      name="type"
-                      variant="outlined"
-                      fullWidth
-                      innerRef={useRef(null)}
-                      value={auctionType}
-                      label="Auction Type"
-                      onChange={handleAuctionTypeChange}
-                     >
-                      <MenuItem value='live'>Live</MenuItem>
-                      <MenuItem  value='anonymous'>Anonymous</MenuItem>
-                      <MenuItem  value='regular'>Regular</MenuItem>
-                    </TextField>
-                  </Grid>
-                  {auctionType==='live'?
-                  <Grid item xs={12}>
+                  <h2 className="section__title p-2" style={{borderBottom:'5px solid #ec9302'}}>التعديل على المزاد</h2>
 
-                  <TextField
-                      name="incrementamount"
-                      value={carincrement}
-                      inputRef={transitionRef}
-                      onChange={(e)=>{setincrement(e.target.value)}}
-                      variant="outlined"
-                      fullWidth
-                      label="مقدار الزيادة"
-                      type="number"
-                      style={{ display: type === 'live' ? 'block' : 'none' }}
-                    />
-                  </Grid> 
-                :
-                <br/>}
                    <Grid item xs={12}>
                       <TextField
                       value={newname}

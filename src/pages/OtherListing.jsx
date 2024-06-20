@@ -1,4 +1,4 @@
- //Aqars
+ //Other
 import React, { useState, useEffect } from "react";
 import { Container, Row } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
@@ -9,6 +9,7 @@ import Item3 from "../components/UI/Item/Item3";
 import { Alert } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import Spinner from '../components/UI/Spinner/Spinner';
+import { Zoom } from "react-awesome-reveal";
  const OtherListing = () => {
    const navigate = useNavigate();
    const [Data, setData] = useState([]);
@@ -39,10 +40,15 @@ import Spinner from '../components/UI/Spinner/Spinner';
     fetchData();
   }, []);
 
- 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
    return (
         <Helmet title="Others">
-       <CommonSection title="أخرى" />
+          <Zoom>
+          <CommonSection title="أخرى" />
+
+          </Zoom>
        {loading ? <Spinner /> :
        <Container>
          <Row>

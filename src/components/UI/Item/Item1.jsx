@@ -1,43 +1,36 @@
 // Item.js
 import React, { useState } from "react";
 import { Col } from "reactstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import moment from 'moment';
-import { Button, TextField } from "@material-ui/core";
 import { useEffect } from "react";
 import axios from "axios";
 import './Item.css'
 import PaidIcon from '@mui/icons-material/Paid';
+import { Zoom } from "react-awesome-reveal";
 const Item1 = (props) => {
   const {name,minimum_bid ,end_time,details,image,id ,status,type} = props.item;
   const [currentTime, setCurrentTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
-  // const [bid, setBid] = useState(0);
   const [auctionActive, setAuctionActive] = useState(false);
-  // const [highestBid, setHighestBid] = useState(minimum_bid);
   const [auctionEnded, setAuctionEnded] = useState(false);
   const jwt_token=localStorage.getItem('jwt_token');
   const [WinnerData,setWinnerData]=useState([]);
   const [WinnerhighestBid, WinnersetHighestBid] = useState([]);
   const[Status,setStatus]=useState(status)
   const navigate=useNavigate()
- const data=WinnerData;
+  const [hovering, setHovering] = useState(false);
   const config={
     headers:{
       Authorization:`Bearer ${jwt_token}`
     }
   }
   const WinnerUrl='http://localhost:8000/api/v1/user/auctions/'+id+'/winner';
-  const StatusUrl='';
-const enter=()=>{
- 
-    return(
-      <div >
-      <p>
-        hello
-      </p>
-    </div>
-    )
-  
+  const enter = () => {
+    setHovering(true);
+  }
+
+   const leave = () => {
+    setHovering(false);
   }
      const getWinnerData=async()=> {
 
@@ -130,17 +123,19 @@ useEffect(() => {
  
   return (
     <Col lg="4" md="4" sm="6" className="mb-5">
-      <div className="car__item">
+    <Zoom >
+    <div className="car__item">
         <div className="car__img">
           <img src={`http://localhost:8000/storage/${image}`} alt="car" className="w-100" />
         </div>
          <div className="car__item-content mt-4">
           <h4 className="section__title text-center">{name}</h4>
+          {type !='anonymous' && 
           <h6 className="rent__price text-center mt-">
-             <PaidIcon />{'السعر الابتدائي:'}
-             <br/>
-           ${minimum_bid}.00  
-         </h6>  
+          <PaidIcon />{'السعر الابتدائي:'}
+          <br/>
+        ${minimum_bid}.00  
+        </h6> } 
           
           
            
@@ -161,13 +156,29 @@ useEffect(() => {
                 <div>
                      <p className="section__subtitle text-center">المزاد انتهى</p>
                      {/* <p className="section__subtitle1 text-center">{highestBid}</p> */}
-
+                    
                      <p className="section__title1 text-center">رابح المزاد: {WinnerData} {WinnerhighestBid}</p>
+                     {hovering && (
+              <div
+              style={{
+                position: 'relative',
+                top: '-10px', // Adjust the position as needed
+                left: '-30px',
+                background: 'rgba(250, 250, 250, 0.8)',
+                color: '#000',
+                padding: '4px',
+                borderRadius: '4px',
+              }}
+            >
+              المزاد انتهى لا يمكنك المزايدة
+            </div>
+          )}
                    </div>
            )}
            <button 
            disabled={auctionEnded} 
            onMouseOver={enter}
+           onMouseLeave={leave}
            onClick={()=>{navigate('/cars/'+id)}} 
            className={` w-100 car__item-btn car__btn-details ${auctionEnded ? 'disabled ' : ''} `}            
            style={{ cursor: auctionEnded ? 'not-allowed' : 'pointer' }}>
@@ -176,9 +187,10 @@ useEffect(() => {
           {/* {auctionEnded && (
               <span className="ended-message">المزاد انتهى</span>
             )} */}
-          </div>
-          <p>{currentTime}</p>
+          </div>          
+           <p>{currentTime}</p>
         </div>
+    </Zoom>
     </Col>
   );
 };

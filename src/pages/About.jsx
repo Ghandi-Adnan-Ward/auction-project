@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import CommonSection from "../components/UI/CommonSection/CommonSection";
 import Helmet from "../components/Helmet/Helmet";
 import AboutSection from "../components/UI/AboutSection/AboutSection";
@@ -6,17 +6,26 @@ import { Container, Row, Col, Fade } from "reactstrap";
 import Advertising from "../components/UI/Advertising/Advertising";
 import OurMembers from '../components/UI/OurMembers/OurMembers'
 import "../styles/About.css";
-
+import { Zoom } from "react-awesome-reveal";
 const About = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Helmet title="About">
-
+      <Zoom>
       <CommonSection title="حول الموقع" />
-      <AboutSection aboutClass="aboutPage" />
- 
 
-      <Advertising />
+      </Zoom>
+      <Zoom>      
+        <AboutSection aboutClass="aboutPage" />
+      </Zoom> 
 
+      <Zoom>
+        <Advertising />
+      </Zoom>
+
+      <Zoom>
       <section>
         <Container>
           <Row>
@@ -29,6 +38,7 @@ const About = () => {
         </Container>
       </section>
 
+      </Zoom>
     </Helmet>
   );
 };

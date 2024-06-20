@@ -7,8 +7,11 @@ import { Button, TextField } from "@material-ui/core";
 import { useEffect } from "react";
 import axios from "axios";
 import './Item.css'
+import PaidIcon from '@mui/icons-material/Paid';
+import { Zoom } from "react-awesome-reveal";
+
 const Item2 = (props) => {
-  const {name,minimum_bid ,end_time,details,image,id ,status} = props.item;
+  const {name,minimum_bid ,end_time,details,image,id,type ,status} = props.item;
   const [currentTime, setCurrentTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
   const [bid, setBid] = useState(0);
   const [auctionActive, setAuctionActive] = useState(false);
@@ -145,17 +148,19 @@ useEffect(() => {
 
   return (
     <Col lg="4" md="4" sm="6" className="mb-5">
-      <div className="car__item">
+    <Zoom>
+    <div className="car__item">
         <div className="car__img">
           <img src={`http://localhost:8000/storage/${image}`} alt="car" className="w-100" />
         </div>
          <div className="car__item-content mt-4">
           <h4 className="section__title text-center">{name}</h4>
-          {!auctionActive ?(<>
-            <h6 className="rent__price text-center mt-">
-            ${highestBid}.00 <span></span>
-          </h6></>):(<><h6 className="rent__price text-center mt-"></h6></>)}
-
+          {type !='anonymous' && 
+          <h6 className="rent__price text-center mt-">
+          <PaidIcon />{'السعر الابتدائي:'}
+          <br/>
+        ${minimum_bid}.00  
+        </h6> } 
           <div className="car__item-info d-flex align-items-center justify-content-between mt-3 mb-4">
             <span className=" d-flex align-items-center gap-1">
             <svg   width="35" height="35" viewBox="0 0 24 24"  style={{ verticalAlign: '-0.125em' }}><g transform="translate(24 0) scale(-1 1)"><path fill="currentColor" d="M21 21H3a1 1 0 0 1-1-1v-7.513a1 1 0 0 1 .343-.754L6 8.544V4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1M9 19h3v-6.058L8 9.454l-4 3.488V19h3v-4h2zm5 0h6V5H8v2.127c.234 0 .469.082.657.247l5 4.359a1 1 0 0 1 .343.754zm2-8h2v2h-2zm0 4h2v2h-2zm0-8h2v2h-2zm-4 0h2v2h-2z"></path></g></svg>
@@ -176,12 +181,17 @@ useEffect(() => {
                    </div>
            )}
 
-          <button onClick={()=>{navigate('/other/'+id)}} className=" w-100 car__item-btn car__btn-details">
+          <button 
+           disabled={auctionEnded} 
+           onClick={()=>{navigate('/aqar/'+id)}} 
+           className={` w-100 car__item-btn car__btn-details ${auctionEnded ? 'disabled ' : ''} `}            
+           style={{ cursor: auctionEnded ? 'not-allowed' : 'pointer' }}>
           مزايدة/تفاصيل
-          </button>
+           </button>
         </div>
          <p>{currentTime}</p>
         </div>
+    </Zoom>
     </Col>
   );
 };

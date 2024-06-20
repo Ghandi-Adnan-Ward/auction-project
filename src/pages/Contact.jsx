@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Form, FormGroup, Input } from "reactstrap";
 import Helmet from "../components/Helmet/Helmet";
 import CommonSection from "../components/UI/CommonSection/CommonSection";
-
+import { Zoom } from "react-awesome-reveal";
 import "../styles/contact.css";
 import axios from "axios";
 
@@ -78,9 +78,12 @@ const Contact = () => {
           console.error("Error sending email:", error);
         }
    };
-
+   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Helmet title="Contact">
+      <Zoom>
       <CommonSection title="تواصل معنا" />
       <section>
         <Container>
@@ -157,6 +160,7 @@ const Contact = () => {
           </Row>
         </Container>
       </section>
+      </Zoom>
     </Helmet>
   );
 };

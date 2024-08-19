@@ -1,0 +1,39 @@
+.not{
+    background: linear-gradient(rgba(124, 138, 151, 0.184),rgba(124, 138, 151, 0.184));
+    background-position: center;
+    background-size: cover;
+    padding: 20px 0px;
+    margin: 10px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+ }
+.not-title {
+    font-size: 2rem;
+    color: #70a584;
+    line-height: 50px;
+    padding: 25px;
+    margin-right: 25px;
+   }
+   .not-title1 {
+    font-size: 2rem;
+    color: #9c4f4f;
+    line-height: 50px;
+    padding: 10px;
+   }
+   .img{
+    max-width: 15%;
+    margin: 0 15px;
+    padding: 5px 5px;
+    background: linear-gradient(rgba(124, 138, 151, 0.184),rgba(124, 138, 151, 0.184));
+    border-radius: 15px;
+   }
+   .bt{
+    padding: 0px 20px;
+    font-size: x-large;
+ }
+ .no{
+    width:  100%;
+    justify-content: center;
+  }
+  
